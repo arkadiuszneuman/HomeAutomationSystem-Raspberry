@@ -5,6 +5,7 @@
 
 RF24 radio(9, 10);
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
+const int pin = 7;
 char RecvPayload[31] = "";
 bool isOn = false;
 
@@ -21,6 +22,8 @@ void setup()
 	radio.openReadingPipe(1, pipes[1]);
 	radio.startListening();
 	radio.printDetails();
+
+	pinMode(pin, OUTPUT);
 }
 
 void loop()
@@ -76,9 +79,15 @@ void nrfCreateResponse(char* message)
 		isOn = !isOn;
 		int len = radio.getDynamicPayloadSize();
 		if (isOn)
+		{
+			digitalWrite(pin, HIGH);
 			radio.write("1", len);
+		}
 		else
+		{
+			digitalWrite(pin, LOW);
 			radio.write("0", len);
+		}
 
 		printf("Changed status and sent response.\n\r");
 	}
