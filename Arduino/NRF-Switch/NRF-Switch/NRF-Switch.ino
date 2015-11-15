@@ -25,7 +25,7 @@ void setup()
 
 void loop()
 {
-	int received = nrfReceive();
+	char* received = nrfReceive();
 	if (received != NULL)
 	{
 		radio.stopListening();
@@ -36,35 +36,37 @@ void loop()
 	}
 }
 
-int nrfReceive() 
+char* nrfReceive() 
 {
 	if (radio.available())
 	{
 		printf("Waiting for message.\n\r");
 
 		int len = 0;
-		if (radio.available()) 
-		{
+		while (radio.available()) {
 			len = radio.getDynamicPayloadSize();
-			radio.read(&len, sizeof(int));
+			radio.read(&RecvPayload, len);
+			delay(100);
 		}
+		char* received = RecvPayload;
 		printf("Received: ");
-		printf(len + "");
+		printf(received);
 		printf("\r\n");
-		return len;
+		RecvPayload[len] = 0; // null terminate string
+		return received;
 	}
 	
 	return NULL;
 }
 
-void nrfCreateResponse(int message)
+void nrfCreateResponse(char* message)
 {
-	if (message == 1)
+	if (message == "sutats")
 	{
 		radio.write(&isOn, sizeof(bool));
 		printf("Sent response.\n\r");
 	}
-	else if (message == 2)
+	else if (message == "sutats_egnahc")
 	{
 		isOn = !isOn;
 		radio.write(&isOn, sizeof(bool));
