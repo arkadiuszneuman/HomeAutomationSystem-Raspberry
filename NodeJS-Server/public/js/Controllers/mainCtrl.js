@@ -1,5 +1,8 @@
 var myApp = angular.module('homeautomation', []);
 
-myApp.controller('mainCtrl', function($scope) {
-  $scope.test = 'test';
+myApp.controller('mainCtrl', function($scope, $http) {
+  $http.get('api/device')
+    .success(function(data) {
+      $scope.devices = data;
+    });
 });

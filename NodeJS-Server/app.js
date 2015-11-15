@@ -24,7 +24,9 @@ var router = express.Router();
 
 var testbool = true;
 router.get('/device', function(req, res) {
-  res.rest.success({ lamp1: testbool });
+  res.rest.success([
+      { id: "lamp1", name: "Lamp 1", status: testbool }
+    ]);
 });
 
 router.post('/device/:id', function(req, res) {

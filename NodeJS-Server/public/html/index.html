@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Home Automation System</title>
-<script src="\angular\angular.min.js"></script>
-<script src="\js\Controllers\mainCtrl.js"></script>
+	<link rel="stylesheet" type="text/css" href="\bootstrap\dist\css\bootstrap.css">
+
+	<script src="\angular\angular.min.js"></script>
+	<script src="\js\Controllers\mainCtrl.js"></script>
+
+	<title>Home Automation System</title>
 </head>
+
 <body>
 
-<div ng-app="homeautomation" ng-controller="mainCtrl">
-	{{test}}
-</div>
+	<div ng-app="homeautomation" ng-controller="mainCtrl">
+		<div ng-repeat="device in devices">
+			<button class="btn" ng-class="{'btn-success':device.status}">{{::device.name}}</button>
+		</div>
+	</div>
 
 </body>
+
 </html>
