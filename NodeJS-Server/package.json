@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/arkadiuszneuman/HomeAutomationSystem/issues"
   },
-  "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem#readme"
+  "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem#readme",
+  "dependencies": {
+    "nrf": "^0.8.3"
+  }
 }
