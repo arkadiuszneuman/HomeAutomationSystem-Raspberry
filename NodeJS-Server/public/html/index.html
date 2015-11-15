@@ -2,22 +2,30 @@
 <html>
 
 <head>
-	<link rel="stylesheet" type="text/css" href="\bootstrap\dist\css\bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="/ladda/dist/ladda-themeless.min.css">
 
-	<script src="\angular\angular.min.js"></script>
-	<script src="\js\Controllers\mainCtrl.js"></script>
+	<script src="angular/angular.min.js"></script>
+	<script src="ladda/dist/spin.min.js"></script>
+	<script src="ladda/dist/ladda.min.js"></script>
+	<script src="angular-ladda/dist/angular-ladda.min.js"></script>
+
+	<script src="js/Controllers/mainCtrl.js"></script>
 
 	<title>Home Automation System</title>
 </head>
 
 <body>
-
 	<div ng-app="homeautomation" ng-controller="mainCtrl">
 		<div ng-repeat="device in devices">
-			<button class="btn" ng-class="{'btn-success':device.status}">{{::device.name}}</button>
+			<button class="btn" ng-class="{'btn-success':device.status, 'btn-danger':!device.status}" ng-click="changeStatus(device)"
+			ladda="device.isRefreshing">
+				<i class="glyphicon glyphicon-ok" ng-show="device.status"></i> 
+				<i class="glyphicon glyphicon-remove" ng-show="!device.status"></i> 
+				{{::device.name}}
+			</button>
 		</div>
 	</div>
-
 </body>
 
 </html>

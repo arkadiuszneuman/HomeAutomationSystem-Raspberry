@@ -1,8 +1,28 @@
-var myApp = angular.module('homeautomation', []);
+var myApp = angular.module('homeautomation', ['angular-ladda']);
 
-myApp.controller('mainCtrl', function($scope, $http) {
+angular.module('homeautomation')
+  .config(function (laddaProvider) {
+    laddaProvider.setOption({
+      style: 'zoom-in'
+    });
+  })
+
+myApp.controller('mainCtrl', function ($scope, $http) {
   $http.get('api/device')
-    .success(function(data) {
+    .success(function (data) {
+      for (var i = 0; i < data.length; ++i) {
+        data[i].isRefreshing = false;
+      }
+
       $scope.devices = data;
     });
+
+  $scope.changeStatus = function (device) {
+    device.isRefreshing = true;
+    $http.post('api/device/' + device.id)
+    .success(function (data) {
+      device.isRefreshing = false;
+      device.status = data.status;
+    });
+  }
 });

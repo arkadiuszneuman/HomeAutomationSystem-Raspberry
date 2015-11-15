@@ -30,8 +30,10 @@ router.get('/device', function(req, res) {
 });
 
 router.post('/device/:id', function(req, res) {
-  testbool = !testbool;
-  res.rest.success();
+  setTimeout(function() {
+    testbool = !testbool;
+    res.rest.success({ id: "lamp1", name: "Lamp 1", status: testbool });
+  }, 1000);
 });
 
 router.get('/device/:id', function(req, res) {
