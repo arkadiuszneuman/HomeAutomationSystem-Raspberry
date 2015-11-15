@@ -1,0 +1,25 @@
+{
+  "name": "homeautomation-server",
+  "description": "Home Automation Server",
+  "main": "app.js",
+  "authors": [
+    "Arkadiusz Neuman"
+  ],
+  "license": "GPL-2.0",
+  "keywords": [
+    "Home",
+    "Automation",
+    "Domoticz"
+  ],
+  "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
