@@ -61,12 +61,12 @@ char* nrfReceive()
 
 void nrfCreateResponse(char* message)
 {
-	if (message == "sutats")
+	if (message[0] == '1')
 	{
 		radio.write(&isOn, sizeof(bool));
 		printf("Sent response.\n\r");
 	}
-	else if (message == "sutats_egnahc")
+	else if (message[0] == '2')
 	{
 		isOn = !isOn;
 		radio.write(&isOn, sizeof(bool));
