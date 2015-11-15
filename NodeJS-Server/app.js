@@ -37,7 +37,8 @@ router.get('/device', function (req, res) {
       tx = nrf.openPipe('tx', pipes[1]);
 
     tx.on('ready', function () {
-      tx.write("status");
+      console.log("Sending status request");
+      tx.write("1");
     });
 
     rx.on('data', function (data) {
@@ -60,17 +61,19 @@ router.post('/device/:id', function (req, res) {
       tx = nrf.openPipe('tx', pipes[1]);
 
     tx.on('ready', function () {
-      tx.write("change_status");
+      console.log("Sending change status request");
+      tx.write("2");
     });
 
     rx.on('data', function (data) {
-      console.log("Got data:", data.toString());
+      var response = Boolean(data);
+      console.log("Got data: ", response);
 
       rx.close();
       tx.close();
 
       res.rest.success([
-        { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
+        { id: "lamp1", name: "Lamp 1", status: response }
       ]);
     });
   });
