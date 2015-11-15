@@ -7,8 +7,6 @@ var NRF24 = require('nrf'),
   spiDev = "/dev/spidev0.0",
   cePin = 25, irqPin = 24,            //var ce = require("./gpio").connect(cePin)
   pipes = [0xF0F0F0F0E1, 0xF0F0F0F0D2];
-var nrf = NRF24.connect(spiDev, cePin, irqPin);
-nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
 
 app.use(restResponse({
   showStatusCode: false,
@@ -32,6 +30,9 @@ var router = express.Router();
 var testbool = true;
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
+
+  var nrf = NRF24.connect(spiDev, cePin, irqPin);
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
     var rx = nrf.openPipe('rx', pipes[0]),
       tx = nrf.openPipe('tx', pipes[1]);
@@ -56,6 +57,9 @@ router.get('/device', function (req, res) {
 
 router.post('/device/:id', function (req, res) {
   console.log("Getting devices statuses");
+
+  var nrf = NRF24.connect(spiDev, cePin, irqPin);
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
     var rx = nrf.openPipe('rx', pipes[0]),
       tx = nrf.openPipe('tx', pipes[1]);
