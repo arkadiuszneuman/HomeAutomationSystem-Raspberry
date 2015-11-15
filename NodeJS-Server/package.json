@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem#readme",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "nrf": "^0.8.3"
   }
