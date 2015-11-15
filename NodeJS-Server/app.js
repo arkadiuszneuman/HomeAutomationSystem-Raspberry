@@ -32,45 +32,47 @@ var router = express.Router();
 var testbool = true;
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
-  var rx = nrf.openPipe('rx', pipes[0]),
-    tx = nrf.openPipe('tx', pipes[1]);
+  nrf.begin(function () {
+    var rx = nrf.openPipe('rx', pipes[0]),
+      tx = nrf.openPipe('tx', pipes[1]);
 
-  tx.on('ready', function () {
-    tx.write("status");
+    tx.on('ready', function () {
+      tx.write("status");
+    });
+
+    rx.on('data', function (data) {
+      console.log("Got data:", data.toString());
+
+      rx.close();
+      tx.close();
+
+      res.rest.success([
+        { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
+      ]);
+    });
   });
-
-  rx.on('data', function (data) {
-    console.log("Got data:", data.toString());
-    
-    rx.close();
-    tx.close();
-    
-    res.rest.success([
-      { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
-    ]);
-  });
-
-
 });
 
 router.post('/device/:id', function (req, res) {
   console.log("Getting devices statuses");
-  var rx = nrf.openPipe('rx', pipes[0]),
-    tx = nrf.openPipe('tx', pipes[1]);
+  nrf.begin(function () {
+    var rx = nrf.openPipe('rx', pipes[0]),
+      tx = nrf.openPipe('tx', pipes[1]);
 
-  tx.on('ready', function () {
-    tx.write("change_status");
-  });
+    tx.on('ready', function () {
+      tx.write("change_status");
+    });
 
-  rx.on('data', function (data) {
-    console.log("Got data:", data.toString());
-    
-    rx.close();
-    tx.close();
-    
-    res.rest.success([
-      { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
-    ]);
+    rx.on('data', function (data) {
+      console.log("Got data:", data.toString());
+
+      rx.close();
+      tx.close();
+
+      res.rest.success([
+        { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
+      ]);
+    });
   });
 });
 
