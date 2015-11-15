@@ -13,7 +13,7 @@
   "keywords": [
     "Home",
     "Automation",
-	"Domoticz"
+    "Domoticz"
   ],
   "author": "Arkadiusz Neuman",
   "license": "GPL-2.0",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem#readme",
   "dependencies": {
+    "express": "^4.13.3",
     "nrf": "^0.8.3"
   }
 }
