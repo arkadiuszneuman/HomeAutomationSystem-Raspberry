@@ -43,13 +43,15 @@ router.get('/device', function (req, res) {
     });
 
     rx.on('data', function (data) {
-      console.log("Got data:", data.toString());
-
+      var num = data.readInt8(0);
+      var status = String.fromCharCode(num) == '1' ? true : false;
+      console.log("Got data: ", status);
+      
       rx.close();
       tx.close();
 
       res.rest.success([
-        { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
+        { id: "lamp1", name: "Lamp 1", status: status }
       ]);
     });
   });
@@ -70,15 +72,14 @@ router.post('/device/:id', function (req, res) {
     });
 
     rx.on('data', function (data) {
-      var response = Boolean(data);
-      console.log("Got data: ", response);
+      var num = data.readInt8(0);
+      var status = String.fromCharCode(num) == '1' ? true : false;
+      console.log("Got data: ", status);
 
       rx.close();
       tx.close();
 
-      res.rest.success([
-        { id: "lamp1", name: "Lamp 1", status: response }
-      ]);
+      res.rest.success({ id: "lamp1", name: "Lamp 1", status: status });
     });
   });
 });
@@ -91,3 +92,4 @@ var server = app.listen(process.env.PORT || 3000, function () {
 
   console.log('Home Automation Server listening at http://%s:%s', host, port);
 });
+
