@@ -3,9 +3,16 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 
+var NRF24 = require('nrf'),
+  spiDev = "/dev/spidev0.0",
+  cePin = 25, irqPin = 24,            //var ce = require("./gpio").connect(cePin)
+  pipes = [0xF0F0F0F0E1, 0xF0F0F0F0D2];
+var nrf = NRF24.connect(spiDev, cePin, irqPin);
+nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+
 app.use(restResponse({
-  showStatusCode: false,  
-  showDefaultMessage: false  
+  showStatusCode: false,
+  showDefaultMessage: false
 }));
 
 app.use('/', express.static(__dirname + '/public'));
@@ -23,23 +30,48 @@ app.use(bodyParser.json());
 var router = express.Router();
 
 var testbool = true;
-router.get('/device', function(req, res) {
-  res.rest.success([
-      { id: "lamp1", name: "Lamp 1", status: testbool }
+router.get('/device', function (req, res) {
+  console.log("Getting devices statuses");
+  var rx = nrf.openPipe('rx', pipes[0]),
+    tx = nrf.openPipe('tx', pipes[1]);
+
+  tx.on('ready', function () {
+    tx.write("status");
+  });
+
+  rx.on('data', function (data) {
+    console.log("Got data:", data.toString());
+    
+    rx.close();
+    tx.close();
+    
+    res.rest.success([
+      { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
     ]);
+  });
+
+
 });
 
-router.post('/device/:id', function(req, res) {
-  setTimeout(function() {
-    testbool = !testbool;
-    res.rest.success({ id: "lamp1", name: "Lamp 1", status: testbool });
-  }, 1000);
-});
+router.post('/device/:id', function (req, res) {
+  console.log("Getting devices statuses");
+  var rx = nrf.openPipe('rx', pipes[0]),
+    tx = nrf.openPipe('tx', pipes[1]);
 
-router.get('/device/:id', function(req, res) {
-  var returnObj = {};
-  returnObj[req.params.id] = testbool;
-  res.rest.success(returnObj);
+  tx.on('ready', function () {
+    tx.write("change_status");
+  });
+
+  rx.on('data', function (data) {
+    console.log("Got data:", data.toString());
+    
+    rx.close();
+    tx.close();
+    
+    res.rest.success([
+      { id: "lamp1", name: "Lamp 1", status: Boolean(data) }
+    ]);
+  });
 });
 
 app.use('/api', router);
