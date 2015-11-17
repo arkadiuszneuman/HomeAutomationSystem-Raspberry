@@ -17,7 +17,7 @@
 </head>
 
 <body>
-	<div ng-app="homeautomation" ng-controller="mainCtrl">
+	<div ng-app="homeautomation" ng-controller="mainCtrl" ng-cloak>
 		<div ng-repeat="device in devices">
 			<button class="btn" ng-class="{'btn-success':device.status, 'btn-danger':!device.status}" ng-click="changeStatus(device)"
 			ladda="device.isRefreshing">
