@@ -32,10 +32,10 @@ router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
 
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0]),
-      tx = nrf.openPipe('tx', pipes[1]);
+    var rx = nrf.openPipe('rx', pipes[0], {size: 8}),
+      tx = nrf.openPipe('tx', pipes[1], {size: 8});
 
     tx.on('ready', function () {
       console.log("Sending status request");
@@ -61,10 +61,10 @@ router.post('/device/:id', function (req, res) {
   console.log("Getting devices statuses");
 
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('1Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0]),
-      tx = nrf.openPipe('tx', pipes[1]);
+    var rx = nrf.openPipe('rx', pipes[0], {size: 8}),
+      tx = nrf.openPipe('tx', pipes[1], {size: 8});
 
     tx.on('ready', function () {
       console.log("Sending change status request");
