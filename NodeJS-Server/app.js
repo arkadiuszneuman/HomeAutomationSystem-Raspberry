@@ -30,19 +30,25 @@ var router = express.Router();
 var testbool = true;
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
-  try {
-    var nrf = NRF24.connect(spiDev, cePin, irqPin);
-    nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
-    nrf.begin(function () {
-      var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
-        tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
-      tx.on('ready', function () {
+  var nrf = NRF24.connect(spiDev, cePin, irqPin);
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.begin(function () {
+    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
+      tx = nrf.openPipe('tx', pipes[1], { size: 8 });
+
+    tx.on('ready', function () {
+      try {
         console.log("Sending status request");
         tx.write("1");
-      });
+      } catch (e) {
+        console.log(e);
+        res.rest.error(e);
+      }
+    });
 
-      rx.on('data', function (data) {
+    rx.on('data', function (data) {
+      try {
         var num = data.readInt8(0);
         var status = String.fromCharCode(num) == '1' ? true : false;
         console.log("Got data: ", status);
@@ -53,29 +59,35 @@ router.get('/device', function (req, res) {
         res.rest.success([
           { id: "lamp1", name: "Lamp 1", status: status }
         ]);
-      });
+      } catch (e) {
+        console.log(e);
+        res.rest.error(e);
+      }
     });
-  } catch (exception) {
-    res.rest.error(exception);
-  }
+  });
 });
 
 router.post('/device/:id', function (req, res) {
   console.log("Getting devices statuses");
 
-  try {
-    var nrf = NRF24.connect(spiDev, cePin, irqPin);
-    nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
-    nrf.begin(function () {
-      var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
-        tx = nrf.openPipe('tx', pipes[1], { size: 8 });
+  var nrf = NRF24.connect(spiDev, cePin, irqPin);
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.begin(function () {
+    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
+      tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
-      tx.on('ready', function () {
+    tx.on('ready', function () {
+      try {
         console.log("Sending change status request");
         tx.write("2");
-      });
+      } catch (e) {
+        console.log(e);
+        res.rest.error(e);
+      }
+    });
 
-      rx.on('data', function (data) {
+    rx.on('data', function (data) {
+      try {
         var num = data.readInt8(0);
         var status = String.fromCharCode(num) == '1' ? true : false;
         console.log("Got data: ", status);
@@ -84,11 +96,13 @@ router.post('/device/:id', function (req, res) {
         tx.close();
 
         res.rest.success({ id: "lamp1", name: "Lamp 1", status: status });
-      });
+      } catch (e) {
+        console.log(e);
+        res.rest.error(e);
+      }
     });
-  } catch (exception) {
-    res.rest.error(exception);
-  }
+  });
+
 });
 
 app.use('/api', router);
