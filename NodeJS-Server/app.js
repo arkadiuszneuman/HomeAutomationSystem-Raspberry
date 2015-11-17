@@ -38,8 +38,8 @@ router.get('/device', function (req, res) {
     var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
     tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
-    var errorFunc = function() {
-      console.log('Error');
+    var errorFunc = function(data) {
+      console.log(data);
     }
 
     tx.on('error', errorFunc);
@@ -76,7 +76,7 @@ router.get('/device', function (req, res) {
 });
 
 router.post('/device/:id', function (req, res) {
-  console.log("Getting devices statuses");
+  console.log("Setting device status");
 
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
   nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
