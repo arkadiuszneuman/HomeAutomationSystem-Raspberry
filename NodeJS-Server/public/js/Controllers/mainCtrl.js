@@ -20,9 +20,11 @@ myApp.controller('mainCtrl', function ($scope, $http) {
   $scope.changeStatus = function (device) {
     device.isRefreshing = true;
     $http.post('api/device/' + device.id)
-    .success(function (data) {
-      device.isRefreshing = false;
-      device.status = data.status;
+      .success(function (data) {
+        device.status = data.status;
+      })
+    .finally(function () {
+        device.isRefreshing = false;      
     });
   }
 });
