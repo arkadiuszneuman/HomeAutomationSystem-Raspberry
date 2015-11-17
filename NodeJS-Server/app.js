@@ -39,6 +39,10 @@ router.get('/device', function (req, res) {
     rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
     tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
+    var errorFunc = function() {
+      console.log('Error');
+    }
+
     tx.on('ready', function () {
       try {
         console.log("Sending status request");
