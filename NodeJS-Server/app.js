@@ -43,7 +43,7 @@ router.get('/device', function (req, res) {
         tx.write("1");
       } catch (e) {
         console.log(e);
-        res.rest.error(e);
+        res.rest.badRequest(e);
       }
     });
 
@@ -61,7 +61,7 @@ router.get('/device', function (req, res) {
         ]);
       } catch (e) {
         console.log(e);
-        res.rest.error(e);
+        res.rest.badRequest(e);
       }
     });
   });
