@@ -27,7 +27,6 @@ app.use(bodyParser.json());
 
 var router = express.Router();
 
-var rx, tx;
 
 var testbool = true;
 router.get('/device', function (req, res) {
@@ -36,12 +35,15 @@ router.get('/device', function (req, res) {
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
   nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
-    rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
+    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
     tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
     var errorFunc = function() {
       console.log('Error');
     }
+
+    tx.on('error', errorFunc);
+    rx.on('error', errorFunc);
 
     tx.on('ready', function () {
       try {
@@ -79,7 +81,7 @@ router.post('/device/:id', function (req, res) {
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
   nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
-    rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
+    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
     tx = nrf.openPipe('tx', pipes[1], { size: 8 });
 
     tx.on('ready', function () {
