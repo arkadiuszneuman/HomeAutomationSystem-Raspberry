@@ -114,3 +114,7 @@ var server = app.listen(process.env.PORT || 3000, function () {
   console.log('Home Automation Server listening at http://%s:%s', host, port);
 });
 
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
+});
