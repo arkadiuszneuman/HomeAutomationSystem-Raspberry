@@ -31,15 +31,17 @@ var errorFunc = function (data) {
   console.log(data);
 }
 
-var testbool = true;
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
 
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('2Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  
   nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
-      tx = nrf.openPipe('tx', pipes[1], { size: 8 });
+    var rx = nrf.openPipe('rx', pipes[0], {size: 1}),
+      tx = nrf.openPipe('tx', pipes[1]);
+
+    nrf.printDetails();
 
     tx.on('error', errorFunc);
     rx.on('error', errorFunc);
@@ -56,7 +58,9 @@ router.get('/device', function (req, res) {
 
     rx.on('data', function (data) {
       try {
+        console.log(data);
         var num = data.readInt8(0);
+        console.log(num);
         var status = String.fromCharCode(num) == '1' ? true : false;
         console.log("Got data: ", status);
 
@@ -78,10 +82,10 @@ router.post('/device/:id', function (req, res) {
   console.log("Setting device status");
 
   var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('2Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
   nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0], { size: 8 }),
-      tx = nrf.openPipe('tx', pipes[1], { size: 8 });
+    var rx = nrf.openPipe('rx', pipes[0], {size: 1}),
+      tx = nrf.openPipe('tx', pipes[1]);
 
     tx.on('error', errorFunc);
     rx.on('error', errorFunc);
@@ -90,6 +94,11 @@ router.post('/device/:id', function (req, res) {
       try {
         console.log("Sending change status request");
         tx.write("2");
+        
+         setTimeout(function() {
+          console.log("Czas minął");
+          res.rest.success({ id: "lamp1", name: "Lamp 1", status: true });
+        }, 2000);
       } catch (e) {
         console.log(e);
         res.rest.error(e);
@@ -98,7 +107,9 @@ router.post('/device/:id', function (req, res) {
 
     rx.on('data', function (data) {
       try {
+        console.log(data + "");
         var num = data.readInt8(0);
+        console.log(num);
         var status = String.fromCharCode(num) == '1' ? true : false;
         console.log("Got data: ", status);
 
@@ -112,7 +123,6 @@ router.post('/device/:id', function (req, res) {
       }
     });
   });
-
 });
 
 app.use('/api', router);
@@ -126,7 +136,5 @@ var server = app.listen(process.env.PORT || 3000, function () {
 
 process.on('uncaughtException', function (err) {
   console.error(err);
-  rx.close();
-  tx.close();
   console.log("Node NOT Exiting...");
 });
