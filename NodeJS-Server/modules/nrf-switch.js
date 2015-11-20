@@ -15,6 +15,7 @@ NRFSwitch.prototype.error = function (cb) {
 NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 	var self = this;
 	var nrf = nrfConfig.getConfiguredNrf();
+	var gotData = false;
 
 	nrf.begin(function () {
 		var rx = nrf.openPipe('rx', self.rxPipe, { size: 1 }),
@@ -33,6 +34,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		rx.on('error', errFunction);
 
 		tx.on('ready', function () {
+			gotData = false;
 			winston.info('Sending to ' + self.txPipe + ' message: ' + message);
 			tx.write(message);
 
@@ -40,10 +42,18 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				rx.close();
 				tx.close();
 				cb();
+			} else {
+				setTimeout(function() {
+					if (!gotData) {
+						winston.info("Retrying");
+						tx.write(message);
+					}
+				}, 1000);
 			}
 		});
 
 		rx.on('data', function (data) {
+			gotData = true;
 			chunk += data;
 			winston.info("Got chunk from " + self.rxPipe + ": " + chunk);
 			var num = data.readInt8(0);
