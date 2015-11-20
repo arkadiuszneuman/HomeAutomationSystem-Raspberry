@@ -41,9 +41,11 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			if (!waitForResponse) {
 				rx.close();
 				tx.close();
-				cb();
+
+				if (cb)
+					cb();
 			} else {
-				setTimeout(function() {
+				setTimeout(function () {
 					if (!gotData) {
 						winston.info("Retrying");
 						tx.write(message);
@@ -64,7 +66,8 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			rx.close();
 			tx.close();
 
-			cb(status);
+			if (cb)
+				cb(status);
 		});
 
 	});
