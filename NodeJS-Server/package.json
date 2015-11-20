@@ -25,6 +25,7 @@
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "express-rest-response": "^1.2.0",
-    "nrf": "^0.8.3"
+    "nrf": "^0.8.3",
+    "winston": "^2.1.1"
   }
 }

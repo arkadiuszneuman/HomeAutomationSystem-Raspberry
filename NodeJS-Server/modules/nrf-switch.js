@@ -1,4 +1,5 @@
 var nrfConfig = require('./nrf-config');
+var winston = require('winston');
 
 var NRFSwitch = function () {
 	this.rxPipe = 0xF0F0F0F0E1;
@@ -22,7 +23,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		var chunk = '';
 
 		var errFunction = function (err) {
-			console.log(err);
+			winston.error(err);
 			self.errorsArray.forEach(function (cb) {
 				cb(err);
 			}, self);
@@ -32,7 +33,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		rx.on('error', errFunction);
 
 		tx.on('ready', function () {
-			console.log('Sending to ' + self.txPipe + ' message: ' + message);
+			winston.info('Sending to ' + self.txPipe + ' message: ' + message);
 			tx.write(message);
 
 			if (!waitForResponse) {
@@ -44,12 +45,11 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 
 		rx.on('data', function (data) {
 			chunk += data;
-			console.log("Got chunk from " + self.rxPipe + ": " + chunk);
-
+			winston.info("Got chunk from " + self.rxPipe + ": " + chunk);
 			var num = data.readInt8(0);
-			console.log('Num: ' + num);
+			winston.info('Num: ' + num);
 			var status = String.fromCharCode(num) == '1' ? true : false;
-			console.log("Status: ", status);
+			winston.info("Status: ", status);
 
 			rx.close();
 			tx.close();
