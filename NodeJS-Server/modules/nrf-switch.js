@@ -5,11 +5,11 @@ var NRFSwitch = function () {
 	this.rxPipe = 0xF0F0F0F0E1;
 	this.txPipe = 0xF0F0F0F0D2;
 
-	this.errorsArray = new Array();
+	this.errorCallback;
 }
 
 NRFSwitch.prototype.error = function (cb) {
-	this.errorsArray.push(cb);
+	this.errorCallback = cb
 }
 
 NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
@@ -24,9 +24,9 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 
 		var errFunction = function (err) {
 			winston.error(err);
-			self.errorsArray.forEach(function (cb) {
-				cb(err);
-			}, self);
+			if (self.errorCallback !== null) {
+				self.errorCallback();
+			}
 		};
 
 		tx.on('error', errFunction);

@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var router = express.Router();
+var nrfSwitch = new NRFSwitch();
 
 var errorFunc = function (data) {
   console.log(data);
@@ -31,7 +32,6 @@ var errorFunc = function (data) {
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
 
-  var nrfSwitch = new NRFSwitch();
   nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
@@ -46,7 +46,6 @@ router.get('/device', function (req, res) {
 router.post('/device/:id', function (req, res) {
   console.log("Setting device status");
 
-  var nrfSwitch = new NRFSwitch();
   nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
