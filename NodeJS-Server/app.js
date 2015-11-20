@@ -51,9 +51,7 @@ router.post('/device/:id', function (req, res) {
   });
   
   nrfSwitch.send('2', true, function(response) {
-    res.rest.success([
-          { id: "lamp1", name: "Lamp 1", status: response }
-        ]);
+    res.rest.success({ id: "lamp1", name: "Lamp 1", status: response });
   });
 });
 
