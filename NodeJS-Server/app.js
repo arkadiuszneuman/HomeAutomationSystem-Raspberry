@@ -32,7 +32,7 @@ router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
 
   var nrfSwitch = new NRFSwitch();
-  nrfSwitch.on('error', function (err) {
+  nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
   
@@ -47,7 +47,7 @@ router.post('/device/:id', function (req, res) {
   console.log("Setting device status");
 
   var nrfSwitch = new NRFSwitch();
-  nrfSwitch.on('error', function (err) {
+  nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
   
