@@ -5,7 +5,7 @@ var NRFSwitch = function () {
 	this.rxPipe = 0xF0F0F0F0E1;
 	this.txPipe = 0xF0F0F0F0D2;
 
-	this.errorCallback;
+	this.errorCallback = null;
 }
 
 NRFSwitch.prototype.error = function (cb) {

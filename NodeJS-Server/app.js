@@ -25,6 +25,15 @@ app.use(bodyParser.json());
 var router = express.Router();
 var nrfSwitch = new NRFSwitch();
 
+var server = app.listen(process.env.PORT || 3000, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log('Home Automation Server listening at http://%s:%s', host, port);
+});
+
+var io = require('socket.io')(server);
+
 var errorFunc = function (data) {
   console.log(data);
 }
@@ -35,11 +44,11 @@ router.get('/device', function (req, res) {
   nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
-  
-  nrfSwitch.send('1', true, function(response) {
+
+  nrfSwitch.send('1', true, function (response) {
     res.rest.success([
-          { id: "lamp1", name: "Lamp 1", status: response }
-        ]);
+      { id: "lamp1", name: "Lamp 1", status: response }
+    ]);
   });
 });
 
@@ -49,19 +58,20 @@ router.post('/device/:id', function (req, res) {
   nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
   });
-  
-  nrfSwitch.send('2', true, function(response) {
+
+  nrfSwitch.send('2', true, function (response) {
+    io.emit('changed status', { id: "lamp1", status: response })
     res.rest.success({ id: "lamp1", name: "Lamp 1", status: response });
   });
 });
 
 app.use('/api', router);
 
-var server = app.listen(process.env.PORT || 3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Home Automation Server listening at http://%s:%s', host, port);
+io.on('connection', function (socket) {
+  console.log('a user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
 });
 
 // process.on('uncaughtException', function (err) {

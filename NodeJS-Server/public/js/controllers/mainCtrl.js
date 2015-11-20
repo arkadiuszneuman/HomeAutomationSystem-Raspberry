@@ -8,6 +8,17 @@ angular.module('homeautomation')
   })
 
 myApp.controller('mainCtrl', function ($scope, $http) {
+  var socket = io();
+
+  socket.on('changed status', function (changedDevice) {
+    for (var i = 0; i < $scope.devices.length; i++) {
+      if ($scope.devices[i].id === changedDevice.id) {
+        $scope.devices[i].status = changedDevice.status;
+        $scope.$apply();
+      }
+    }
+  });
+
   $http.get('api/device')
     .success(function (data) {
       for (var i = 0; i < data.length; ++i) {
@@ -23,8 +34,8 @@ myApp.controller('mainCtrl', function ($scope, $http) {
       .success(function (data) {
         device.status = data.status;
       })
-    .finally(function () {
-        device.isRefreshing = false;      
-    });
+      .finally(function () {
+        device.isRefreshing = false;
+      });
   }
 });
