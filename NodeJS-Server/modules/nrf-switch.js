@@ -12,26 +12,27 @@ NRFSwitch.prototype.error = function (cb) {
 }
 
 NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
+	var self = this;
 	var nrf = nrfConfig.getConfiguredNrf();
 
 	nrf.begin(function () {
-		var rx = nrf.openPipe('rx', this.rxPipe, { size: 1 }),
-			tx = nrf.openPipe('tx', this.txPipe);
+		var rx = nrf.openPipe('rx', self.rxPipe, { size: 1 }),
+			tx = nrf.openPipe('tx', self.txPipe);
 
 		var chunk = '';
 
 		var errFunction = function (err) {
 			console.log(err);
-			this.errorsArray.forEach(function (cb) {
+			self.errorsArray.forEach(function (cb) {
 				cb(err);
-			}, this);
-		}.bind(this);
+			}, self);
+		};
 
 		tx.on('error', errFunction);
 		rx.on('error', errFunction);
 
 		tx.on('ready', function () {
-			console.log('Sending to ' + this.txPipe + ' message: ' + message);
+			console.log('Sending to ' + self.txPipe + ' message: ' + message);
 			tx.write(message);
 
 			if (!waitForResponse) {
@@ -39,11 +40,11 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				tx.close();
 				cb();
 			}
-		}.bind(this));
+		});
 
 		rx.on('data', function (data) {
 			chunk += data;
-			console.log("Got chunk from " + this.rxPipe + ": " + chunk);
+			console.log("Got chunk from " + self.rxPipe + ": " + chunk);
 
 			var num = data.readInt8(0);
 			console.log('Num: ' + num);
@@ -54,9 +55,9 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			tx.close();
 
 			cb(status);
-		}.bind(this));
+		});
 
-	}.bind(this));
+	});
 }
 
 module.exports = NRFSwitch;
