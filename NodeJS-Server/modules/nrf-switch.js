@@ -1,11 +1,11 @@
 var nrfConfig = require('./nrf-config');
 
-function NRFSwitch() {
+var NRFSwitch = function() {
 	this.rxPipe = 0xF0F0F0F0E1;
 	this.txPipe = 0xF0F0F0F0D2;
 	
 	this.callbacksArray = {};
-	this.callbacksArray['error'] = {};
+	this.callbacksArray['error'] = new Array();
 }
 
 NRFSwitch.prototype.on = function(type, cb) {
@@ -14,11 +14,12 @@ NRFSwitch.prototype.on = function(type, cb) {
 
 NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 	var nrf = nrfConfig.getConfiguredNrf();
+	
 	nrf.begin(function () {
 		var rx = nrf.openPipe('rx', this.rxPipe, { size: 1 }),
 			tx = nrf.openPipe('tx', this.txPipe);
 			
-		var chunk;
+		var chunk = '';
 		
 		var errFunction = function(err) {
 			console.log(err);
@@ -39,23 +40,24 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				tx.close();
 				cb();
 			}
-		});
+		}.bind(this));
 
 		rx.on('data', function (data) {
 			chunk += data;
-			console.log("Got chunk from " + this.rxPipe);
-		});
-		
-		rx.on('end', function() {
-			console.log("Got end: " + chunk);
-			var num = chunk.readInt8(0);
+			console.log("Got chunk from " + this.rxPipe + ": " + chunk);
+			
+			var num = data.readInt8(0);
 			console.log('Num: ' + num);
 			var status = String.fromCharCode(num) == '1' ? true : false;
 			console.log("Status: ", status);
 			
+			rx.close();
+			tx.close();
+			
 			cb(status);
-		})
-	});
+		}.bind(this));
+		
+	}.bind(this));
 }
 
 module.exports = NRFSwitch;

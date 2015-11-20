@@ -3,10 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 
-var NRF24 = require('nrf'),
-  spiDev = "/dev/spidev0.0",
-  cePin = 25, irqPin = 24,            //var ce = require("./gpio").connect(cePin)
-  pipes = [0xF0F0F0F0E1, 0xF0F0F0F0D2];
+var NRFSwitch = require('./modules/nrf-switch');
 
 app.use(restResponse({
   showStatusCode: false,
@@ -34,94 +31,30 @@ var errorFunc = function (data) {
 router.get('/device', function (req, res) {
   console.log("Getting devices statuses");
 
-  var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('2Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+  var nrfSwitch = new NRFSwitch();
+  nrfSwitch.on('error', function (err) {
+    res.rest.badRequest(err);
+  });
   
-  nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0], {size: 1}),
-      tx = nrf.openPipe('tx', pipes[1]);
-
-    nrf.printDetails();
-
-    tx.on('error', errorFunc);
-    rx.on('error', errorFunc);
-
-    tx.on('ready', function () {
-      try {
-        console.log("Sending status request");
-        tx.write("1");
-      } catch (e) {
-        console.log(e);
-        res.rest.badRequest(e);
-      }
-    });
-
-    rx.on('data', function (data) {
-      try {
-        console.log(data);
-        var num = data.readInt8(0);
-        console.log(num);
-        var status = String.fromCharCode(num) == '1' ? true : false;
-        console.log("Got data: ", status);
-
-        rx.close();
-        tx.close();
-
-        res.rest.success([
-          { id: "lamp1", name: "Lamp 1", status: status }
+  nrfSwitch.send('1', true, function(response) {
+    res.rest.success([
+          { id: "lamp1", name: "Lamp 1", status: response }
         ]);
-      } catch (e) {
-        console.log(e);
-        res.rest.badRequest(e);
-      }
-    });
   });
 });
 
 router.post('/device/:id', function (req, res) {
   console.log("Setting device status");
 
-  var nrf = NRF24.connect(spiDev, cePin, irqPin);
-  nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('2Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
-  nrf.begin(function () {
-    var rx = nrf.openPipe('rx', pipes[0], {size: 1}),
-      tx = nrf.openPipe('tx', pipes[1]);
-
-    tx.on('error', errorFunc);
-    rx.on('error', errorFunc);
-
-    tx.on('ready', function () {
-      try {
-        console.log("Sending change status request");
-        tx.write("2");
-        
-         setTimeout(function() {
-          console.log("Czas minął");
-          res.rest.success({ id: "lamp1", name: "Lamp 1", status: true });
-        }, 2000);
-      } catch (e) {
-        console.log(e);
-        res.rest.error(e);
-      }
-    });
-
-    rx.on('data', function (data) {
-      try {
-        console.log(data + "");
-        var num = data.readInt8(0);
-        console.log(num);
-        var status = String.fromCharCode(num) == '1' ? true : false;
-        console.log("Got data: ", status);
-
-        rx.close();
-        tx.close();
-
-        res.rest.success({ id: "lamp1", name: "Lamp 1", status: status });
-      } catch (e) {
-        console.log(e);
-        res.rest.error(e);
-      }
-    });
+  var nrfSwitch = new NRFSwitch();
+  nrfSwitch.on('error', function (err) {
+    res.rest.badRequest(err);
+  });
+  
+  nrfSwitch.send('2', true, function(response) {
+    res.rest.success([
+          { id: "lamp1", name: "Lamp 1", status: response }
+        ]);
   });
 });
 
@@ -134,7 +67,7 @@ var server = app.listen(process.env.PORT || 3000, function () {
   console.log('Home Automation Server listening at http://%s:%s', host, port);
 });
 
-process.on('uncaughtException', function (err) {
-  console.error(err);
-  console.log("Node NOT Exiting...");
-});
+// process.on('uncaughtException', function (err) {
+//   console.error(err);
+//   console.log("Node NOT Exiting...");
+// });
