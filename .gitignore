@@ -24,9 +24,8 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+NodeJS-Server/node_modules
 
-bower_components
+NodeJS-Server/bower_components
 
-NodeJS-Server/typings/
-Arduino/NRF-Switch/NRF-Switch/__vm/
+typings/

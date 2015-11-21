@@ -9,7 +9,7 @@ var NRFSwitch = function () {
 }
 
 NRFSwitch.prototype.error = function (cb) {
-	this.errorCallback = cb
+	this.errorCallback = cb;
 }
 
 NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
