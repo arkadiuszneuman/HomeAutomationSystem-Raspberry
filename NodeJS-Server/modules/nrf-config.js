@@ -10,6 +10,6 @@ exports.getConnectedNrf = function() {
 
 exports.getConfiguredNrf = function() {
 	var nrf = exports.getConnectedNrf();
-	nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('2Mbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
+	nrf.channel(0x4c).transmitPower('PA_MAX').dataRate('250kbps').crcBytes(2).autoRetransmit({ count: 15, delay: 4000 });
 	return nrf;
 }
