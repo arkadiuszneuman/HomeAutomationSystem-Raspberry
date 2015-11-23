@@ -54,16 +54,19 @@ router.get('/device', function (req, res) {
 
 router.post('/device/:id/:status', function (req, res) {
   console.log("Setting device status: " + req.params.status);
-  
+
   var statusToSend = req.params.status == 'true' ? '1' : '0';
-  
+
   nrfSwitch.error(function (err) {
-    res.rest.badRequest(err);
+    if (!res.headersSent)
+      res.rest.badRequest(err);
   });
 
   nrfSwitch.send('2' + statusToSend, true, function (response) {
-    io.emit('changed status', { id: "lamp1", status: response })
-    res.rest.success({ id: "lamp1", name: "Lamp 1", status: response });
+    if (!res.headersSent) {
+      io.emit('changed status', { id: "lamp1", status: response })
+      res.rest.success({ id: "lamp1", name: "Lamp 1", status: response });
+    }
   });
 });
 
