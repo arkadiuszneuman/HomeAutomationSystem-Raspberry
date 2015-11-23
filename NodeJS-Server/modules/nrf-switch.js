@@ -1,5 +1,5 @@
 var nrfConfig = require('./nrf-config');
-var winston = require('winston');
+var logger = require('winston');
 
 var NRFSwitch = function () {
 	this.rxPipe = 0xF0F0F0F0E1;
@@ -25,7 +25,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 
 		var errFunction = function (err) {
 			gotData = true;
-			winston.error(err);
+			logger.error(err);
 			if (self.errorCallback !== null) {
 				self.errorCallback();
 			}
@@ -36,10 +36,10 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 
 		tx.on('ready', function () {
 			gotData = false;
-			winston.info('Sending to ' + self.txPipe + ' message: ' + message);
+			logger.info('Sending to ' + self.txPipe + ' message: ' + message);
 			
 			var msgToSend = message.split("").reverse().join("");
-			console.log("writing " + msgToSend);
+			logger.log("writing " + msgToSend);
 			tx.write(msgToSend);
 
 			if (!waitForResponse) {
@@ -51,7 +51,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			} else {
 				setTimeout(function () {
 					if (!gotData) {
-						winston.info("Retrying");
+						logger.info("Retrying");
 						tx.write(msgToSend);
 					}
 				}, 1000);
@@ -61,11 +61,11 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		rx.on('data', function (data) {
 			gotData = true;
 			chunk += data;
-			winston.info("Got chunk from " + self.rxPipe + ": " + chunk);
+			logger.info("Got chunk from " + self.rxPipe + ": " + chunk);
 			var num = data.readInt8(0);
-			winston.info('Num: ' + num);
+			logger.info('Num: ' + num);
 			var status = String.fromCharCode(num) == '1' ? true : false;
-			winston.info("Status: ", status);
+			logger.info("Status: ", status);
 
 			rx.close();
 			tx.close();
