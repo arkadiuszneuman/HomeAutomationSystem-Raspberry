@@ -24,6 +24,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		var chunk = '';
 
 		var errFunction = function (err) {
+			gotData = true;
 			winston.error(err);
 			if (self.errorCallback !== null) {
 				self.errorCallback();
@@ -36,7 +37,10 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		tx.on('ready', function () {
 			gotData = false;
 			winston.info('Sending to ' + self.txPipe + ' message: ' + message);
-			tx.write(message);
+			
+			var msgToSend = message.split("").reverse().join("");
+			console.log("writing " + msgToSend);
+			tx.write(msgToSend);
 
 			if (!waitForResponse) {
 				rx.close();
@@ -48,7 +52,7 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				setTimeout(function () {
 					if (!gotData) {
 						winston.info("Retrying");
-						tx.write(message);
+						tx.write(msgToSend);
 					}
 				}, 1000);
 			}
