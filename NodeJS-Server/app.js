@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
+var logger = require('winston');
 
 var NRFSwitch = require('./modules/nrf-switch');
 
@@ -29,17 +30,17 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log('Home Automation Server listening at http://%s:%s', host, port);
+  logger.log('Home Automation Server listening at http://%s:%s', host, port);
 });
 
 var io = require('socket.io')(server);
 
 var errorFunc = function (data) {
-  console.log(data);
+  logger.log(data);
 }
 
 router.get('/device', function (req, res) {
-  console.log("Getting devices statuses");
+  logger.log("Getting devices statuses");
 
   nrfSwitch.error(function (err) {
     res.rest.badRequest(err);
@@ -53,7 +54,7 @@ router.get('/device', function (req, res) {
 });
 
 router.post('/device/:id/:status', function (req, res) {
-  console.log("Setting device status: " + req.params.status);
+  logger.log("Setting device status: " + req.params.status);
 
   var statusToSend = req.params.status == 'true' ? '1' : '0';
 
@@ -73,13 +74,13 @@ router.post('/device/:id/:status', function (req, res) {
 app.use('/api', router);
 
 io.on('connection', function (socket) {
-  console.log('a user connected');
+  logger.log('a user connected');
   socket.on('disconnect', function () {
-    console.log('user disconnected');
+    logger.log('user disconnected');
   });
 });
 
-// process.on('uncaughtException', function (err) {
-//   console.error(err);
-//   console.log("Node NOT Exiting...");
-// });
+process.on('uncaughtException', function (err) {
+  logger.error(err);
+  logger.log("Node NOT Exiting...");
+});
