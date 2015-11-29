@@ -23,7 +23,6 @@ app.get('/', function (req, res) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var router = express.Router();
 var nrfSwitch = new NRFSwitch();
 
 var server = app.listen(process.env.PORT || 3000, function () {
@@ -34,44 +33,9 @@ var server = app.listen(process.env.PORT || 3000, function () {
 });
 
 var io = require('socket.io')(server);
+var deviceRoutes = require('./routes/device')(io);
 
-var errorFunc = function (data) {
-  logger.info(data);
-}
-
-router.get('/device', function (req, res) {
-  logger.info("Getting devices statuses");
-
-  nrfSwitch.error(function (err) {
-    res.rest.badRequest(err);
-  });
-
-  nrfSwitch.send('10', true, function (response) {
-    res.rest.success([
-      { id: "lamp1", name: "Lamp 1", status: response }
-    ]);
-  });
-});
-
-router.post('/device/:id/:status', function (req, res) {
-  logger.info("Setting device status: " + req.params.status);
-
-  var statusToSend = req.params.status == 'true' ? '1' : '0';
-
-  nrfSwitch.error(function (err) {
-    if (!res.headersSent)
-      res.rest.badRequest(err);
-  });
-
-  nrfSwitch.send('2' + statusToSend, true, function (response) {
-    if (!res.headersSent) {
-      io.emit('changed status', { id: "lamp1", status: response })
-      res.rest.success({ id: "lamp1", name: "Lamp 1", status: response });
-    }
-  });
-});
-
-app.use('/api', router);
+app.use('/api', deviceRoutes);
 
 io.on('connection', function (socket) {
   logger.info('a user connected');
