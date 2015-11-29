@@ -377,21 +377,21 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <!--<div class="col-sm-12 text-center" ng-show="device.isRefreshing">
+                                <div class="col-sm-12 text-center" ng-show="device.isRefreshing">
                                     <h1><i class="fa fa-refresh fa-spin "></i><h1>
-                                </div>-->
-                                <div ng-hide="device.isRefreshingg">
+                                </div>
+                                <div ng-hide="device.isRefreshing">
                                     <div class="row">
                                         <div class="col-xs-1">
                                             <h1><i class="fa fa-lightbulb-o"></i></h1>
                                         </div>
                                         <div class="col-xs-11">
-                                            <div>Status: <strong>Turned on</strong></div>
+                                            <div>Status: <strong ng-show="device.status">Turned on</strong><strong ng-show="!device.status">Turned off</strong></div>
                                             <div>Last seen: <strong>21.12.2015</strong></div>
                                         </div>
                                     </div>
                                     <button class="btn" ng-class="{'btn-success':device.status, 'btn-danger':!device.status}" ng-click="changeStatus(device)"
-                                        ladda="device.isRefreshing">
+                                        ladda="device.changingStatus">
                                         <span ng-show="device.status">Turn off</span>
                                         <span ng-show="!device.status">Turn on</span>
                                     </button>

@@ -22,21 +22,31 @@ myApp.controller('mainCtrl', function ($scope, $http) {
   $http.get('api/device')
     .success(function (data) {
       for (var i = 0; i < data.length; ++i) {
-        data[i].isRefreshing = false;
+        data[i].isRefreshing = true;
       }
 
       $scope.devices = data;
+    })
+    .then(function () {
+      for (var i = 0; i < $scope.devices.length; ++i) {
+        var device = $scope.devices[i];
+        $http.get('api/device/' + device.id)
+          .success(function (data) {
+            device.status = data.status;
+            device.isRefreshing = false;
+          });
+      }
     });
 
   $scope.changeStatus = function (device) {
-    device.isRefreshing = true;
+    device.changingStatus = true;
     var stat = !device.status
     $http.post('api/device/' + device.id + '/' + stat)
       .success(function (data) {
         device.status = data.status;
       })
       .finally(function () {
-        device.isRefreshing = false;
+        device.changingStatus = false;
       });
   }
 });
