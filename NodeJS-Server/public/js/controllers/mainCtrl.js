@@ -1,13 +1,5 @@
-var myApp = angular.module('homeautomation', ['angular-ladda']);
 
-angular.module('homeautomation')
-  .config(function (laddaProvider) {
-    laddaProvider.setOption({
-      style: 'zoom-in'
-    });
-  })
-
-myApp.controller('mainCtrl', function ($scope, $http) {
+homeAutomationApp.controller('mainCtrl', function ($scope, $http) {
   var socket = io();
 
   socket.on('changed status', function (changedDevice) {
