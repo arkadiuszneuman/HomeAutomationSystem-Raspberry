@@ -8,11 +8,15 @@ var nrfSwitch = new NRFSwitch();
 
 module.exports = function (io) {
   router.get('/device', function (req, res) {
-    logger.info("Getting devices statuses");
+    logger.info('Getting devices statuses');
 
-    res.rest.success([
-      { id: "lamp1", name: "Lamp 1" }
-    ]);
+    models.Device.find({ active: true }, function (err, devices) {
+      if (err)
+        logger.info(err);
+
+      logger.info('Sending: ' + devices);
+      res.rest.success(devices);
+    });
   });
 
   router.get('/device/:id', function (req, res) {
@@ -52,8 +56,13 @@ module.exports = function (io) {
     device.name = req.body.name;
     device.rxPipe = req.body.rxPipe;
     device.txPipe = req.body.txPipe;
-    device.save(function () {
-      logger.info('Saved: ' + device);
+    device.active = true;
+    device.save(function (err) {
+      if (err)
+        logger.info(err);
+      else
+        logger.info('Saved: ' + device);
+
       res.rest.success();
     });
   });

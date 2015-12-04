@@ -6,7 +6,8 @@ var deviceSchema = mongoose.Schema({
 	
 	schedule: [{
 		cron: String,
-		status: Boolean
+		status: Boolean,
+		active: Boolean
 	}],
 	history: [{
 		date: Date,
