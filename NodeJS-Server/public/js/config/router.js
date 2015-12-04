@@ -34,5 +34,15 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+    
+    .state('home.receivers.add', {
+      url: "/add",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/addDevice.html',
+          controller: 'addDeviceCtrl'
+        },
+      }
+    })
   ;
 });

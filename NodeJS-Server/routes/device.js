@@ -1,6 +1,7 @@
 var NRFSwitch = require('../modules/nrf-switch');
 var logger = require('winston');
 var express = require('express');
+var models = require('../models');
 
 var router = express.Router();
 var nrfSwitch = new NRFSwitch();
@@ -10,10 +11,10 @@ module.exports = function (io) {
     logger.info("Getting devices statuses");
 
     res.rest.success([
-        { id: "lamp1", name: "Lamp 1" }
-      ]);
+      { id: "lamp1", name: "Lamp 1" }
+    ]);
   });
-  
+
   router.get('/device/:id', function (req, res) {
     logger.info("Getting device status: " + req.params.id);
 
@@ -43,6 +44,19 @@ module.exports = function (io) {
       }
     });
   });
-  
+
+  router.put('/device', function (req, res) {
+    logger.info(req.body);
+
+    var device = new models.Device();
+    device.name = req.body.name;
+    device.rxPipe = req.body.rxPipe;
+    device.txPipe = req.body.txPipe;
+    device.save(function () {
+      logger.info('Saved: ' + device);
+      res.rest.success();
+    });
+  });
+
   return router;
 }

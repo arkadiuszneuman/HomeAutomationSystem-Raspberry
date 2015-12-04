@@ -1,5 +1,5 @@
 
-homeAutomationApp.controller('mainCtrl', function ($scope, $http) {
+homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
   var socket = io();
 
   socket.on('changed status', function (changedDevice) {
@@ -40,5 +40,9 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http) {
       .finally(function () {
         device.changingStatus = false;
       });
+  }
+  
+  $scope.add = function() {
+    $state.go('home.receivers.add');
   }
 });

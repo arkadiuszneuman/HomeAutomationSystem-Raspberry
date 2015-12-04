@@ -4,6 +4,12 @@ var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/homeautomationsystem', function(err) {
+  if (err) 
+    logger.error(err);
+});
+
 var NRFSwitch = require('./modules/nrf-switch');
 
 app.use(restResponse({
