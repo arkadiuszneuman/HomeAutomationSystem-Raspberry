@@ -10,8 +10,6 @@ mongoose.connect('mongodb://localhost/homeautomationsystem', function(err) {
     logger.error(err);
 });
 
-var NRFSwitch = require('./modules/nrf-switch');
-
 app.use(restResponse({
   showStatusCode: false,
   showDefaultMessage: false
@@ -28,8 +26,6 @@ app.get('/', function (req, res) {
 //api
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-var nrfSwitch = new NRFSwitch();
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;

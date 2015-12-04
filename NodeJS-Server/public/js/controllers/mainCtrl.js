@@ -4,7 +4,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
 
   socket.on('changed status', function (changedDevice) {
     for (var i = 0; i < $scope.devices.length; i++) {
-      if ($scope.devices[i].id === changedDevice.id) {
+      if ($scope.devices[i]._id === changedDevice._id) {
         $scope.devices[i].status = changedDevice.status;
         $scope.$apply();
       }
@@ -22,7 +22,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
     .then(function () {
       for (var i = 0; i < $scope.devices.length; ++i) {
         var device = $scope.devices[i];
-        $http.get('api/device/' + device.id)
+        $http.get('api/device/' + device._id)
           .success(function (data) {
             device.status = data.status;
             device.isRefreshing = false;
@@ -33,7 +33,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
   $scope.changeStatus = function (device) {
     device.changingStatus = true;
     var stat = !device.status
-    $http.post('api/device/' + device.id + '/' + stat)
+    $http.post('api/device/' + device._id + '/' + stat)
       .success(function (data) {
         device.status = data.status;
       })

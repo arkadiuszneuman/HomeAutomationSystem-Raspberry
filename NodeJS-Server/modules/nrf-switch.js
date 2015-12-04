@@ -1,9 +1,9 @@
 var nrfConfig = require('./nrf-config');
 var logger = require('winston');
 
-var NRFSwitch = function () {
-	this.rxPipe = 0xF0F0F0F0E1;
-	this.txPipe = 0xF0F0F0F0D2;
+var NRFSwitch = function (rxPipe, txPipe) {
+	this.rxPipe = Number(rxPipe);
+	this.txPipe = Number(txPipe);
 
 	this.errorCallback = null;
 }
