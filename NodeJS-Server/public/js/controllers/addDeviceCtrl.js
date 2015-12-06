@@ -5,9 +5,13 @@ homeAutomationApp.controller('addDeviceCtrl', function ($scope, $http, $state) {
 	$scope.save = function () {
 		$http.put('api/device', $scope.device)
 			.success(function () {
-				$state.go('home.receivers');
+				$scope.close();
 			}).error(function (err) {
 				console.log(err);
 			});
+	}
+
+	$scope.close = function () {
+		$state.go('home.receivers');
 	}
 });
