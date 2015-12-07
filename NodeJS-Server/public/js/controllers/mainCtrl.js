@@ -11,6 +11,26 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
     }
   });
 
+  var currentDeviceStatus = 0;
+  var getNextDeviceStatus = function () {
+    if (currentDeviceStatus < $scope.devices.length) {
+      var device = $scope.devices[currentDeviceStatus];
+      $http.get('api/device/' + device._id)
+        .success(function (data) {
+          device.status = data.status;
+          console.log('Got status: ' + device._id)
+        }).error(function (err) {
+          console.log('Got error: ' + device._id)
+        }).finally(function () {
+          device.isRefreshing = false;
+          console.log('Finally: ' + device._id)
+          ++currentDeviceStatus;
+          getNextDeviceStatus();
+        });
+    }
+
+  }
+
   $http.get('api/device')
     .success(function (data) {
       for (var i = 0; i < data.length; ++i) {
@@ -20,15 +40,10 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
       $scope.devices = data;
     })
     .then(function () {
-      for (var i = 0; i < $scope.devices.length; ++i) {
-        var device = $scope.devices[i];
-        $http.get('api/device/' + device._id)
-          .success(function (data) {
-            device.status = data.status;
-          }).finally(function() {
-            device.isRefreshing = false;            
-          });
-      }
+      getNextDeviceStatus();
+      // for (var i = 0; i < $scope.devices.length; ++i) {
+      //     getDeviceStatus
+      // }
     });
 
   $scope.changeStatus = function (device) {
@@ -42,8 +57,8 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
         device.changingStatus = false;
       });
   }
-  
-  $scope.add = function() {
+
+  $scope.add = function () {
     $state.go('home.receivers.add');
   }
 });
