@@ -16,6 +16,8 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 	var self = this;
 	var nrf = nrfConfig.getConfiguredNrf();
 	var gotData = false;
+	this.errorSent = false;
+	this.callbackSent = false;
 
 	nrf.begin(function () {
 		var rx = nrf.openPipe('rx', self.rxPipe, { size: 1 }),
@@ -26,9 +28,13 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 		var errFunction = function (err) {
 			gotData = true;
 			logger.error(err);
-			if (self.errorCallback !== null) {
+			if (self.errorCallback !== null && !this.callbackSent) {
+				this.errorSent = true;
 				self.errorCallback();
 			}
+			
+			rx.close();
+			tx.close();
 		};
 
 		tx.on('error', errFunction);
@@ -46,13 +52,15 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				rx.close();
 				tx.close();
 
-				if (cb)
+				if (cb && !this.errorSent) {
+					this.callbackSent = true;
 					cb();
+				}
 			} else {
 				setTimeout(function () {
 					if (!gotData) {
-						logger.info("Retrying");
-						tx.write(msgToSend);
+						// logger.info("Retrying");
+						// tx.write(msgToSend);
 					}
 				}, 1000);
 			}
@@ -70,8 +78,10 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			rx.close();
 			tx.close();
 
-			if (cb)
+			if (cb && !this.errorSent) {
+				this.callbackSent = true;
 				cb(status);
+			}
 		});
 
 	});

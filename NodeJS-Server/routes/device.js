@@ -30,11 +30,15 @@ module.exports = function (io) {
       var nrfSwitch = new NRFSwitch(device.rxPipe, device.txPipe);
 
       nrfSwitch.error(function (err) {
-        res.rest.badRequest(err);
+        if (!res.headersSent) {
+          res.rest.badRequest(err);
+        }
       });
 
       nrfSwitch.send('10', true, function (response) {
-        res.rest.success({ _id: req.params.id, status: response });
+        if (!res.headersSent) {
+          res.rest.success({ _id: req.params.id, status: response });
+        }
       });
     });
   });
