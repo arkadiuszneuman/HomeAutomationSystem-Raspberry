@@ -25,7 +25,8 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
         $http.get('api/device/' + device._id)
           .success(function (data) {
             device.status = data.status;
-            device.isRefreshing = false;
+          }).finally(function() {
+            device.isRefreshing = false;            
           });
       }
     });
