@@ -16,8 +16,8 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 	var self = this;
 	var nrf = nrfConfig.getConfiguredNrf();
 	var gotData = false;
-	this.errorSent = false;
-	this.callbackSent = false;
+	self.errorSent = false;
+	self.callbackSent = false;
 
 	nrf.begin(function () {
 		var rx = nrf.openPipe('rx', self.rxPipe, { size: 1 }),
@@ -27,9 +27,9 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 
 		var errFunction = function (err) {
 			gotData = true;
-			logger.error(err);
-			if (self.errorCallback !== null && !this.callbackSent) {
-				this.errorSent = true;
+			logger.error('Got error: ' + err);
+			if (self.errorCallback !== null && !self.callbackSent) {
+				self.errorSent = true;
 				self.errorCallback();
 			}
 			
@@ -52,17 +52,18 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 				rx.close();
 				tx.close();
 
-				if (cb && !this.errorSent) {
-					this.callbackSent = true;
+				if (cb && !self.errorSent) {
+					self.callbackSent = true;
 					cb();
 				}
 			} else {
 				setTimeout(function () {
 					if (!gotData) {
+						errFunction('No response');
 						// logger.info("Retrying");
 						// tx.write(msgToSend);
 					}
-				}, 1000);
+				}, 3000);
 			}
 		});
 
@@ -78,8 +79,8 @@ NRFSwitch.prototype.send = function (message, waitForResponse, cb) {
 			rx.close();
 			tx.close();
 
-			if (cb && !this.errorSent) {
-				this.callbackSent = true;
+			if (cb && !self.errorSent) {
+				self.callbackSent = true;
 				cb(status);
 			}
 		});
