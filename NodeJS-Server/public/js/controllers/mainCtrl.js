@@ -18,12 +18,11 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
       $http.get('api/device/' + device._id)
         .success(function (data) {
           device.status = data.status;
-          console.log('Got status: ' + device._id)
+          device.connectionError = false;
         }).error(function (err) {
-          console.log('Got error: ' + device._id)
+          device.connectionError = true;
         }).finally(function () {
           device.isRefreshing = false;
-          console.log('Finally: ' + device._id)
           ++currentDeviceStatus;
           getNextDeviceStatus();
         });

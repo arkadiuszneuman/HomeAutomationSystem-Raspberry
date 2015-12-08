@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <button class="btn" ng-class="{'btn-success':device.status, 'btn-danger':!device.status}" ng-click="changeStatus(device)"
-                    ladda="device.changingStatus">
+                    ladda="device.changingStatus" ng-disabled="device.connectionError">
                         <span ng-show="device.status">Turn off</span>
                         <span ng-show="!device.status">Turn on</span>
                     </button>

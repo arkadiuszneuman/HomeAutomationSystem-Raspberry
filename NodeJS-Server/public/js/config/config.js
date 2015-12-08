@@ -2,6 +2,6 @@ var homeAutomationApp = angular.module('homeautomation', ['angular-ladda', 'ui.r
 
 homeAutomationApp.config(function (laddaProvider) {
   laddaProvider.setOption({
-    style: 'zoom-in'
+    style: 'expand-right'
   });
 });
