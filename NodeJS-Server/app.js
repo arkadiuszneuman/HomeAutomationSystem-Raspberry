@@ -36,8 +36,10 @@ var server = app.listen(process.env.PORT || 3000, function () {
 
 var io = require('socket.io')(server);
 var deviceRoutes = require('./routes/device')(io);
+var scheduleRoutes = require('./routes/schedule');
 
 app.use('/api', deviceRoutes);
+app.use('/api', scheduleRoutes);
 
 io.on('connection', function (socket) {
   logger.info('a user connected');

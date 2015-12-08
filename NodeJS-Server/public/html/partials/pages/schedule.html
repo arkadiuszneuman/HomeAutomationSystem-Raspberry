@@ -1,8 +1,16 @@
 <div class="row">
-	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="schedule in schedules">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="schedule in schedules | filter:{ active: true }">
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>{{schedule.name}}</h2>
+				<ul class="nav navbar-right panel_toolbox">
+                    <li>
+                    </li>
+                    <li>
+                    </li>
+                    <li><a class="close-link" ng-click="delete(schedule)"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
@@ -35,12 +43,12 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<cron-selection output="schedule.cron" template="html/partials/pages/cron.html"></cron-selection>
+						<cron-selection output="schedule.cron" init="schedule.cron" template="html/partials/pages/cron.html"></cron-selection>
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="pull-right">
-							<button ng-disabled="switchSaveForm.$invalid" type="submit" class="btn btn-success" ng-click="save(schedule)">Save</button>
+							<button ladda="schedule.saving" ng-disabled="switchSaveForm.$invalid || schedule.deleting" type="submit" class="btn btn-success" ng-click="save(schedule)">Save</button>
 						</div>
 					</div>
 				</form>

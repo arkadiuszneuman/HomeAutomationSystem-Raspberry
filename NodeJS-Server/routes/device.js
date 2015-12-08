@@ -27,6 +27,19 @@ module.exports = function (io) {
 
       logger.info("Found device: " + device);
 
+      res.rest.success(device);
+    });
+  });
+
+  router.get('/device/:id/status', function (req, res) {
+    logger.info("Getting device status: " + req.params.id);
+
+    models.Device.findById(req.params.id, function (err, device) {
+      if (err)
+        logger.info(err);
+
+      logger.info("Found device: " + device);
+
       var nrfSwitch = new NRFSwitch(device.rxPipe, device.txPipe);
 
       nrfSwitch.error(function (err) {

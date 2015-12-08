@@ -15,7 +15,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
   var getNextDeviceStatus = function () {
     if (currentDeviceStatus < $scope.devices.length) {
       var device = $scope.devices[currentDeviceStatus];
-      $http.get('api/device/' + device._id)
+      $http.get('api/device/' + device._id + '/status')
         .success(function (data) {
           device.status = data.status;
           device.connectionError = false;

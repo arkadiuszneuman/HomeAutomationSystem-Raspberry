@@ -1,1 +1,1 @@
-exports.Device = require('./device')
+exports.Device = require('./device');
