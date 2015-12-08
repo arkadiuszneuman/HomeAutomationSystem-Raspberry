@@ -57,4 +57,8 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
   $scope.add = function () {
     $state.go('home.receivers.add');
   }
+
+  $scope.schedule = function (device) {
+    $state.go('home.receivers.schedule', { id: device._id });
+  }
 });

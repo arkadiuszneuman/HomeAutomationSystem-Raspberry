@@ -5,6 +5,8 @@ var deviceSchema = mongoose.Schema({
 	txPipe: String,
 	
 	schedule: [{
+		name: String,
+		desc: String,
 		cron: String,
 		status: Boolean,
 		active: Boolean

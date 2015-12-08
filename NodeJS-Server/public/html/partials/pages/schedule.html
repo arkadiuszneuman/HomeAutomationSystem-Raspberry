@@ -1,0 +1,57 @@
+<div class="row">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="schedule in schedules">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>{{schedule.name}}</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br />
+				<form novalidate name="switchSaveForm" class="form-horizontal form-label-left">
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name</span>
+						</label>
+						<div class="col-md-9 col-sm-9 col-xs-12">
+							<input ng-model="schedule.name" type="text" id="name" required class="form-control col-md-7 col-xs-12"
+							autocomplete="off">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rxPipe">Status</span>
+						</label>
+						<div class="col-md-9 col-sm-9 col-xs-12">
+							<select ng-model="schedule.status" class="form-control">
+								<option value="true">On</option>
+								<option value="false">Off</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description</span>
+						</label>
+						<div class="col-md-9 col-sm-9 col-xs-12">
+							<input ng-model="schedule.desc" type="text" id="desc" required class="form-control col-md-7 col-xs-12"
+							autocomplete="off">
+						</div>
+					</div>
+					<div class="form-group">
+						<cron-selection output="schedule.cron" template="html/partials/pages/cron.html"></cron-selection>
+					</div>
+					<div class="ln_solid"></div>
+					<div class="form-group">
+						<div class="pull-right">
+							<button ng-disabled="switchSaveForm.$invalid" type="submit" class="btn btn-success" ng-click="save(schedule)">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<button type="submit" class="btn btn-primary" ng-click="close()">Back</button>
+		<button class="btn btn-success pull-right" ng-click="add()"><i class="fa fa-plus"></i></button>
+	</div>
+</div>

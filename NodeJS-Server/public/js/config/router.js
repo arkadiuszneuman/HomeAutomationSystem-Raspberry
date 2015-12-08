@@ -34,13 +34,21 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
-    
     .state('home.receivers.add', {
       url: "/add",
       views: {
         'main@': {
           templateUrl: 'html/partials/pages/addDevice.html',
           controller: 'addDeviceCtrl'
+        },
+      }
+    })
+    .state('home.receivers.schedule', {
+      url: "/:id/schedule",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/schedule.html',
+          controller: 'scheduleCtrl'
         },
       }
     })
