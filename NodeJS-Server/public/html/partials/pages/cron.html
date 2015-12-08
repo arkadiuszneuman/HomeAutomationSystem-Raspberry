@@ -29,11 +29,10 @@
         <label class="control-label col-md-3 col-sm-3 col-xs-12" ng-show="myFrequency.base >= 2">At</label>
         <div class="col-md-9 col-sm-9 col-xs-12">
             <div class="col-xs-6" ng-show="myFrequency.base >= 3">
-                <select ng-show="myFrequency.base >= 3" class="cron-select hour-value form-control" ng-model="myFrequency.hourValue" ng-options="value for value in hourValue"></select>
+                <input ng-show="myFrequency.base >= 3" type="number" class="form-control" ng-model="myFrequency.hourValue">
             </div>
             <div class="col-xs-6">
-                <select ng-show="myFrequency.base >= 2" class="cron-select minute-value form-control" ng-model="myFrequency.minuteValue"
-                ng-options="value for value in minuteValue"></select>
+                <input ng-show="myFrequency.base >= 2" type="number" class="form-control" ng-model="myFrequency.minuteValue">
             </div>
             <div class="col-xs-6" ng-show="myFrequency.base == 2">
                 <label class="control-label">past the hour</label>

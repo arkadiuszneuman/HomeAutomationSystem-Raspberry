@@ -22,12 +22,12 @@ exports.start = function () {
                                           var nrfSwitch = new NRFSwitch(device.rxPipe, device.txPipe);
 
                                           nrfSwitch.error(function (err) {
-                                                logger.error('Scheduler err: ' + err);
+                                                logger.error('Scheduler [' + schedule.name + ']  err: ' + err);
                                           });
 
                                           var statusToSend = schedule.status === true ? '1' : '0';
                                           nrfSwitch.send('2' + statusToSend, true, function (response) {
-                                                logger.error('Scheduler sent status');
+                                                logger.info('Scheduler [' + schedule.name + '] sent status');
                                           });
                                     }, null, true);
 
