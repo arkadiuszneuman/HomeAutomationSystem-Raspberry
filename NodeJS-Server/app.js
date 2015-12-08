@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
+var scheduler = require('./modules/scheduler');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/homeautomationsystem', function(err) {
@@ -52,3 +53,5 @@ process.on('uncaughtException', function (err) {
   logger.error(err);
   logger.info("Node NOT Exiting...");
 });
+
+scheduler.start();

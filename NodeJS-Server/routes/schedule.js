@@ -1,6 +1,7 @@
 var logger = require('winston');
 var express = require('express');
 var models = require('../models');
+var scheduler = require('../modules/scheduler');
 
 var router = express.Router();
 
@@ -52,7 +53,9 @@ router.put('/device/:id/schedule', function (req, res) {
         logger.info(err);
       else
         logger.info('Saved: ' + device);
-        
+
+      scheduler.restart();
+      
       logger.info('Returning: ' + device.schedule[device.schedule.length - 1]._id);
       res.rest.success({ _id: device.schedule[device.schedule.length - 1]._id });
     });
@@ -77,6 +80,8 @@ router.delete('/device/:id/schedule/:scheduleId', function (req, res) {
             logger.info(err);
           else
             logger.info('Saved: ' + device);
+
+          scheduler.restart();
 
           res.rest.success();
         });

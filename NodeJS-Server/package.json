@@ -23,6 +23,7 @@
   "homepage": "https://github.com/arkadiuszneuman/HomeAutomationSystem#readme",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "cron": "^1.1.0",
     "express": "^4.13.3",
     "express-rest-response": "^1.2.0",
     "kerberos": "0.0.17",
