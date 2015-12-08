@@ -40,9 +40,6 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
     })
     .then(function () {
       getNextDeviceStatus();
-      // for (var i = 0; i < $scope.devices.length; ++i) {
-      //     getDeviceStatus
-      // }
     });
 
   $scope.changeStatus = function (device) {
