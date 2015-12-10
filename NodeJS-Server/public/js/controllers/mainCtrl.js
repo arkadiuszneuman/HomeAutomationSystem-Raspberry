@@ -45,7 +45,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
   $scope.changeStatus = function (device) {
     device.changingStatus = true;
     var stat = !device.status
-    $http.post('api/device/' + device._id + '/' + stat)
+    $http.post('api/device/' + device._id + '/status/' + stat)
       .success(function (data) {
         device.status = data.status;
       })
