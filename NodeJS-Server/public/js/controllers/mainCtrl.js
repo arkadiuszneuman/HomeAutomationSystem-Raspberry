@@ -21,6 +21,7 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
           device.connectionError = false;
         }).error(function (err) {
           device.connectionError = true;
+          console.log(err);
         }).finally(function () {
           device.isRefreshing = false;
           ++currentDeviceStatus;
@@ -49,8 +50,25 @@ homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
       .success(function (data) {
         device.status = data.status;
       })
+      .error(function (err) {
+        console.log(err);
+      })
       .finally(function () {
         device.changingStatus = false;
+      });
+  }
+
+  $scope.refresh = function (device) {
+    device.reconnecting = true;
+    $http.get('api/device/' + device._id + '/status')
+      .success(function (data) {
+        device.status = data.status;
+        device.connectionError = false;
+      }).error(function (err) {
+        device.connectionError = true;
+        console.log(err);
+      }).finally(function () {
+        device.reconnecting = false;
       });
   }
 
