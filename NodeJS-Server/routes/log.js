@@ -5,9 +5,20 @@ var router = express.Router();
 
 router.get('/log', function(req, res) {
     logger.info('Getting logs list');
-    models.Log.find(null, null, { skip: 0, limit: 50 }, function(err, logs) {
+    models.Log.find(null, null, { sort: '-_id', skip: 0, limit: 50 }, function(err, logs) {
         if (err) logger.info(err);
-        res.rest.success(logs);
+
+        var returningLogs = [];
+        for (var i = 0; i < logs.length; i++) {
+        	returningLogs.push({
+        		timestamp: new Date(logs[i].timestamp),
+        		message: logs[i].message,
+        		level: logs[i].level
+        	});
+        	
+        };
+
+        res.rest.success(returningLogs);
     });
 });
 
