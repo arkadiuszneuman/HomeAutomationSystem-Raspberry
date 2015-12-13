@@ -29,7 +29,7 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
       url: "/receivers",
       views: {
         'main@': {
-          templateUrl: 'html/partials/pages/receivers.html',
+          templateUrl: 'html/partials/pages/receivers/receivers.html',
           controller: 'mainCtrl'
         },
       }
@@ -38,7 +38,7 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
       url: "/add",
       views: {
         'main@': {
-          templateUrl: 'html/partials/pages/addDevice.html',
+          templateUrl: 'html/partials/pages/receivers/addDevice.html',
           controller: 'addDeviceCtrl'
         },
       }
@@ -47,8 +47,18 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
       url: "/:id/schedule",
       views: {
         'main@': {
-          templateUrl: 'html/partials/pages/schedule.html',
+          templateUrl: 'html/partials/pages/receivers/schedule.html',
           controller: 'scheduleCtrl'
+        },
+      }
+    })
+    
+    .state('home.logs', {
+      url: "/receivers",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/logs/logs.html',
+          // controller: 'logsCtrl'
         },
       }
     })
