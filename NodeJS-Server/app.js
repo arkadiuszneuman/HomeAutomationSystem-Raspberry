@@ -5,6 +5,13 @@ var restResponse = require('express-rest-response');
 var logger = require('winston');
 var scheduler = require('./modules/scheduler');
 
+//configure logger for mongo
+require('winston-mongodb').MongoDB;
+logger.add(logger.transports.MongoDB, {
+  db: 'mongodb://localhost/homeautomationsystem'
+});
+
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/homeautomationsystem', function(err) {
   if (err) 
