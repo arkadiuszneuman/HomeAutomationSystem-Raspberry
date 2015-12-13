@@ -54,11 +54,11 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
     })
     
     .state('home.logs', {
-      url: "/receivers",
+      url: "/logs",
       views: {
         'main@': {
           templateUrl: 'html/partials/pages/logs/logs.html',
-          // controller: 'logsCtrl'
+          controller: 'logsCtrl'
         },
       }
     })
