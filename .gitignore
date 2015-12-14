@@ -1,5 +1,4 @@
 # Logs
-logs
 *.log
 
 # Runtime data
@@ -27,5 +26,5 @@ build/Release
 NodeJS-Server/node_modules
 
 NodeJS-Server/bower_components
-
 typings/
+
