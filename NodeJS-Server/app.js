@@ -6,8 +6,7 @@ var logger = require('winston');
 // var scheduler = require('./modules/scheduler');
 
 //Auth part
-var jwt = require('jsonwebtoken');
-var config = require('./modules/auth-config');
+
 
 //configure logger for mongo
 require('winston-mongodb').MongoDB;
@@ -30,9 +29,6 @@ app.use(restResponse({
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/bower_components'));
 
-//Set app configuration
-app.set('superSecret',config.secret);
-
 //serve main file
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/html/index.html');
@@ -54,11 +50,13 @@ var io = require('socket.io')(server);
 // // var scheduleRoutes = require('./routes/schedule');
 var logRoutes = require('./routes/log');
 var userRoutes = require('./routes/users')
+var loginRoutes = require('./routes/login')
 
 // app.use('/api', deviceRoutes);
 // // app.use('/api', scheduleRoutes);
 app.use('/api', logRoutes);
 app.use('/api', userRoutes);
+app.use('/api', loginRoutes);
 
 io.on('connection', function (socket) {
   logger.info('a user connected');
