@@ -26,6 +26,7 @@
     "cron": "^1.1.0",
     "express": "^4.13.3",
     "express-rest-response": "^1.2.0",
+    "jsonwebtoken": "^5.5.4",
     "kerberos": "0.0.17",
     "mongodb": "^2.0.49",
     "mongoose": "^4.2.8",

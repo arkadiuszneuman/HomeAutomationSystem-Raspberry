@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
-var scheduler = require('./modules/scheduler');
+// var scheduler = require('./modules/scheduler');
 
 //configure logger for mongo
 require('winston-mongodb').MongoDB;
@@ -43,12 +43,12 @@ var server = app.listen(process.env.PORT || 3000, function () {
 });
 
 var io = require('socket.io')(server);
-var deviceRoutes = require('./routes/device')(io);
-var scheduleRoutes = require('./routes/schedule');
+// var deviceRoutes = require('./routes/device')(io);
+// // var scheduleRoutes = require('./routes/schedule');
 var logRoutes = require('./routes/log');
-
-app.use('/api', deviceRoutes);
-app.use('/api', scheduleRoutes);
+// 
+// app.use('/api', deviceRoutes);
+// // app.use('/api', scheduleRoutes);
 app.use('/api', logRoutes);
 
 io.on('connection', function (socket) {
@@ -58,9 +58,10 @@ io.on('connection', function (socket) {
   });
 });
 
+
 process.on('uncaughtException', function (err) {
   logger.error(err);
   logger.info("Node NOT Exiting...");
 });
 
-scheduler.start();
+// scheduler.start();
