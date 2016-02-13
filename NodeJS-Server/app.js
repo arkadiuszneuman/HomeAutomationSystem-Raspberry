@@ -5,6 +5,10 @@ var restResponse = require('express-rest-response');
 var logger = require('winston');
 // var scheduler = require('./modules/scheduler');
 
+//Auth part
+var jwt = require('jsonwebtoken');
+var config = require('./modules/auth-config');
+
 //configure logger for mongo
 require('winston-mongodb').MongoDB;
 logger.add(logger.transports.MongoDB, {
@@ -25,6 +29,9 @@ app.use(restResponse({
 
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/bower_components'));
+
+//Set app configuration
+app.set('superSecret',config.secret);
 
 //serve main file
 app.get('/', function (req, res) {
