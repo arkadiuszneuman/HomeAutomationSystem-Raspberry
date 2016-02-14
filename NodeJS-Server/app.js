@@ -14,7 +14,6 @@ logger.add(logger.transports.MongoDB, {
   db: 'mongodb://localhost/homeautomationsystem'
 });
 
-
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/homeautomationsystem', function(err) {
   if (err) 
@@ -51,6 +50,9 @@ var io = require('socket.io')(server);
 var logRoutes = require('./routes/log');
 var userRoutes = require('./routes/users')
 var loginRoutes = require('./routes/login')
+
+
+
 
 // app.use('/api', deviceRoutes);
 // // app.use('/api', scheduleRoutes);
