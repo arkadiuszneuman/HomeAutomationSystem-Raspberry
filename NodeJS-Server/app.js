@@ -27,13 +27,16 @@ app.use(restResponse({
 }));
 
 
-
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/bower_components'));
 
 //serve main file
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/html/index.html');
+});
+
+app.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/public/html/login.html');
 });
 
 //api
@@ -62,6 +65,7 @@ var loginRoutes = require('./routes/login')
 app.use('/api', logRoutes);
 app.use('/api', userRoutes);
 app.use('/api', loginRoutes);
+// app.use('/', loginRoutes);
 
 io.on('connection', function (socket) {
   logger.info('a user connected');
