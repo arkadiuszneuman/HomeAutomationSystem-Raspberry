@@ -6,7 +6,8 @@ var logger = require('winston');
 // var scheduler = require('./modules/scheduler');
 
 //Auth part
-
+var jwt = require('jsonwebtoken');
+var config = require('./modules/authConfig');
 
 //configure logger for mongo
 require('winston-mongodb').MongoDB;
@@ -24,6 +25,8 @@ app.use(restResponse({
   showStatusCode: false,
   showDefaultMessage: false
 }));
+
+
 
 app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/bower_components'));
