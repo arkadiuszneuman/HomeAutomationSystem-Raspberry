@@ -52,6 +52,14 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+      .state('home.receivers.schedule.timeofday', {
+        url: '',
+        templateUrl: 'html/partials/pages/receivers/scheduletypes/timeofday.html'
+      })
+      .state('home.receivers.schedule.sun', {
+        url: '',
+        templateUrl: 'html/partials/pages/receivers/scheduletypes/sun.html'
+    })
     
     .state('home.logs', {
       url: "/logs",

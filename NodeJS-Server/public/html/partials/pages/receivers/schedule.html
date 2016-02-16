@@ -1,9 +1,9 @@
 <div class="row">
-	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="schedule in schedules | filter:{ active: true }">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2>{{schedule.name}}</h2>
-				<ul class="nav navbar-right panel_toolbox">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="schedule in schedules | filter:{ active: true }">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>{{schedule.name}}</h2>
+                <ul class="nav navbar-right panel_toolbox">
                     <li>
                     </li>
                     <li>
@@ -11,55 +11,65 @@
                     <li><a class="close-link" ng-click="delete(schedule)"><i class="fa fa-close"></i></a>
                     </li>
                 </ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content">
-				<br />
-				<form novalidate name="switchSaveForm" class="form-horizontal form-label-left">
-					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name</span>
-						</label>
-						<div class="col-md-9 col-sm-9 col-xs-12">
-							<input ng-model="schedule.name" type="text" id="name" required class="form-control col-md-7 col-xs-12"
-							autocomplete="off">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="rxPipe">Status</span>
-						</label>
-						<div class="col-md-9 col-sm-9 col-xs-12">
-							<select ng-model="schedule.status" class="form-control">
-								<option value="true">On</option>
-								<option value="false">Off</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description</span>
-						</label>
-						<div class="col-md-9 col-sm-9 col-xs-12">
-							<input ng-model="schedule.desc" type="text" id="desc" class="form-control col-md-7 col-xs-12"
-							autocomplete="off">
-						</div>
-					</div>
-					<div class="form-group">
-						<cron-selection output="schedule.cron" init="schedule.cron" template="html/partials/pages/receivers/cron.html"></cron-selection>
-					</div>
-					<div class="ln_solid"></div>
-					<div class="form-group">
-						<div class="pull-right">
-							<button ladda="schedule.saving" ng-disabled="switchSaveForm.$invalid || schedule.deleting" type="submit" class="btn btn-success" ng-click="save(schedule)">Save</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form novalidate name="switchSaveForm" class="form-horizontal form-label-left">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input ng-model="schedule.name" type="text" id="name" required class="form-control col-md-7 col-xs-12"
+                            autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rxPipe">Status</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select ng-model="schedule.status" class="form-control">
+                                <option value="true">On</option>
+                                <option value="false">Off</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input ng-model="schedule.desc" type="text" id="desc" class="form-control col-md-7 col-xs-12"
+                            autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Type</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" ng-change="changeType(schedule.type)" ng-model="schedule.type">
+                                <option value="timeofday">Time of a day</option>
+                                <option value="sun">Sunrise or sunset</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div ui-view></div>
+                    <div class="form-group">
+                        <cron-selection output="schedule.cron" init="schedule.cron" template="html/partials/pages/receivers/cron.html"></cron-selection>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="pull-right">
+                            <button ladda="schedule.saving" ng-disabled="switchSaveForm.$invalid || schedule.deleting" type="submit" class="btn btn-success" ng-click="save(schedule)">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
 <div class="row">
-	<div class="col-xs-12">
-		<button type="submit" class="btn btn-primary" ng-click="close()">Back</button>
-		<button class="btn btn-success pull-right" ng-click="add()"><i class="fa fa-plus"></i></button>
-	</div>
+    <div class="col-xs-12">
+        <button type="submit" class="btn btn-primary" ng-click="close()">Back</button>
+        <button class="btn btn-success pull-right" ng-click="add()"><i class="fa fa-plus"></i></button>
+    </div>
 </div>
