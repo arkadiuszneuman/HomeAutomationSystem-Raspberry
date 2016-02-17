@@ -1,7 +1,9 @@
 
-homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state) {
+homeAutomationApp.controller('mainCtrl', function ($scope, $http, $state,userService) {
   var socket = io();
 
+  $scope.sessionService = userService;
+  
   socket.on('changed status', function (changedDevice) {
     for (var i = 0; i < $scope.devices.length; i++) {
       if ($scope.devices[i]._id === changedDevice._id) {

@@ -6,7 +6,43 @@ homeAutomationApp.config(function (laddaProvider) {
   });
 });
 
-homeAutomationApp.factory('$authService', ['$window', function($window) {
+homeAutomationApp.factory('$notify', [function () {
+    return {
+        show: function (options) {
+            new PNotify({
+                title: options.title,
+                text: options.text,
+                type: options.type
+            });
+        }
+    }
+}]);
+
+homeAutomationApp.factory('userService', ['$http',function ($http) {
+
+    var userCached = { name: '', lastname: '' };
+
+    return {
+        logIn:function(user){
+            return  $http.post('api/authenticate/', user);
+        },
+        logOut:function(){
+            
+        },
+        getUser: function () {
+            return userCached;
+        },
+        user:userCached,
+        setUser: function (newUser) {
+            userCached.name = newUser.name;
+        }
+    }
+}]);
+
+homeAutomationApp.factory('authService', ['$window', function($window) {
+    
+   var authData ={IsLoggedIn:false};
+    
   return {
     set: function(key, value) {
       $window.localStorage[key] = value;
@@ -19,14 +55,15 @@ homeAutomationApp.factory('$authService', ['$window', function($window) {
     },
     getObject: function(key) {
       return JSON.parse($window.localStorage[key] || '{}');
-    }
+    },
+    authData
   }
 }]);
 
-homeAutomationApp.factory('authInterceptor',['$authService',function($authService){
+homeAutomationApp.factory('authInterceptor',['authService',function(authService){
     var myInterceptor = {
         request:function(config){
-           config.headers['x-access-token'] = $authService.getObject('HACToken');
+           config.headers['x-access-token'] = authService.get('HACToken');
            return config;
         }
     };

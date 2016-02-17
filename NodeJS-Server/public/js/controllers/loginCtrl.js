@@ -1,28 +1,30 @@
 /* global PNotify */
-homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, $authService) {
+homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, $notify,userService,authService) {
     $scope.user = { name: '', password: '' };
 
 
     $scope.loginUser = function () {
-
-
-        $http.post('api/authenticate/', $scope.user)
+            userService.logIn($scope.user)
             .success(function (data) {
                 console.log(data);
 
                 if (data.success == true) {
 
-                    $authService.set('HACToken',data.token);
-
-                    new PNotify({
+                    authService.set('HACToken',data.token);
+                    authService.IsLoggedIn = true
+                    
+                    userService.setUser($scope.user);
+                    
+                    $notify.show({
                         title: 'Welcome in Home Automation System',
                         text: 'piczi',
                         type: 'success'
                     });
-
+                   
                     $state.go('home.logs');
                 } else {
-                    new PNotify({
+                    
+                    $notify.show({
                         title: 'Login failed',
                         text: data.message,
                         type: 'error'
@@ -36,3 +38,4 @@ homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, $auth
 });
 
 
+            //    $http.post('api/authenticate/', $scope.user)

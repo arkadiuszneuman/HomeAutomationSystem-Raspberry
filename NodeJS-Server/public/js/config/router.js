@@ -18,9 +18,11 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
       views: {
         'menu': {
           templateUrl: 'html/partials/menu.html',
+          controller: 'mainCtrl'
         },
         'content': {
           templateUrl: 'html/partials/content.html',
+          controller: 'mainCtrl'
         },
       }
     })
