@@ -7,6 +7,26 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var config = require('../modules/authConfig');
 
+module.exports = function isAuth(req, res, next) {
+
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    if (token) {
+
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to auth token' });
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        });
+    } else {
+        return res.status(403).send({ success: false, message: 'No token provided' });
+    }
+};
+
+
 router.post('/authenticate',function(req,res){
     
     logger.log("auth started");
@@ -46,6 +66,7 @@ router.post('/authenticate',function(req,res){
 router.get('/login', function (req, res) {
   res.sendFile(__dirname + '/public/html/partials/pages/Login/login.html');
 });
+
 
 
 // 
