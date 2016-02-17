@@ -5,7 +5,7 @@ var loginProvider = require('./login.js');
 var router = express.Router();
     
     
-    var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
 var config = require('../modules/authConfig');
 
 function isAuth(req, res, next) {
@@ -14,15 +14,16 @@ function isAuth(req, res, next) {
     // 
     if (token) {
 
-                console.log(config.secret);
-                jwt.verify(JSON.parse(token), config.secret, function (err, decoded) {
-                    if (err) {
-                        console.log(err);
-                        return res.json({ success: false, message: 'Failed to auth token' });
-                    } else {
-                        next();
-                    }
-                });
+        console.log(config.secret);
+        console.log(token);
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) {
+                console.log(err);
+                return res.json({ success: false, message: 'Failed to auth token' });
+            } else {
+                next();
+            }
+        });
     } else {
         return res.status(403).send({ success: false, message: 'No token provided' });
     }
