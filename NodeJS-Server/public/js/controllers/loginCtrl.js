@@ -1,3 +1,4 @@
+/* global PNotify */
 homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
     
     $scope.user = {name:'SD',password:'SD'};
@@ -10,10 +11,21 @@ homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
 				.success(function (data) {
                     console.log(data);
                     
-                    if(data.success === 'true'){
+                    if(data.success == true){
+                        
+                        new PNotify({
+                                title: 'Welcome in Home Automation System',
+                                text: 'piczi',
+                                type: 'success'
+                            });
+
                         $state.go('home.logs');                        
                     }else{
-                        
+                         new PNotify({
+                                title: 'Login failed',
+                                text: data.message,
+                                type: 'error'
+                            });
                     }
                     
 				}).error(function (err) {
