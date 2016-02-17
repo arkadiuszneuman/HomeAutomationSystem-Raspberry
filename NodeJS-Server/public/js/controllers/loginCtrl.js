@@ -9,7 +9,13 @@ homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
     $http.post('api/authenticate/',$scope.user)
 				.success(function (data) {
                     console.log(data);
-                    $state.go('home.logs');
+                    
+                    if(data.success === 'true'){
+                        $state.go('home.logs');                        
+                    }else{
+                        
+                    }
+                    
 				}).error(function (err) {
 					console.log(err);
 				});

@@ -1,6 +1,14 @@
 <div id="wrapper">
     <div id="login" class="animate form">
         <section class="login_content">
+            
+            <p>Regular notifications</p>
+                                <button class="btn btn-default source" onclick="new PNotify({
+                                title: 'Regular Success',
+                                text: 'That thing that you were trying to do worked!',
+                                type: 'success'
+                            });">Success</button>
+            
             <form>
                 <h1>Login Form</h1>
                 <div>
@@ -33,3 +41,32 @@
         </section>
         <!-- content -->
     </div>
+    
+      <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
+    <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
+    <script type="text/javascript" src="js/notify/pnotify.nonblock.js"></script>
+    
+     <script type="text/javascript">
+        var permanotice, tooltip, _alert;
+        $(function () {
+            new PNotify({
+                title: "PNotify",
+                type: "dark",
+                text: "Welcome. Try hovering over me. You can click things behind me, because I'm non-blocking.",
+                nonblock: {
+                    nonblock: true
+                },
+                before_close: function (PNotify) {
+                    // You can access the notice's options with this. It is read only.
+                    //PNotify.options.text;
+                    // You can change the notice's options after the timer like this:
+                    PNotify.update({
+                        title: PNotify.options.title + " - Enjoy your Stay",
+                        before_close: null
+                    });
+                    PNotify.queueRemove();
+                    return false;
+                }
+            });
+        });
+    </script>
