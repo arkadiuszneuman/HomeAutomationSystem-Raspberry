@@ -1,6 +1,5 @@
 /* global PNotify */
-homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
-    
+homeAutomationApp.controller('loginCtrl', function($scope, $http, $state,$window) {
     $scope.user = {name:'SD',password:'SD'};
     
     
@@ -13,6 +12,8 @@ homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
                     
                     if(data.success == true){
                         
+                        $window.localStorage['HACToken'] = JSON.stringify(data.token);
+ 
                         new PNotify({
                                 title: 'Welcome in Home Automation System',
                                 text: 'piczi',
