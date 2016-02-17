@@ -35,9 +35,6 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/html/index.html');
 });
 
-app.get('/login', function (req, res) {
-  res.sendFile(__dirname + '/public/html/login.html');
-});
 
 //api
 app.use(bodyParser.urlencoded({ extended: true }));

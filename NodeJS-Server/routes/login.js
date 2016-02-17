@@ -42,11 +42,13 @@ router.post('/authenticate',function(req,res){
     });
     
 });
-// 
-// router.get('/login',function(req,res){
-//     // res.sendFile(__dirname + '/public/html/login.html');
-// });
 
+router.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/public/html/partials/pages/Login/login.html');
+});
+
+
+// 
 // router.use(function(req,res,next){
 //    
 //    var token = req.body.token || req.query.token || req.headers['x-access-token'];

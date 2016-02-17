@@ -5683,7 +5683,7 @@ a.hiddenanchor{
 #login{
     z-index: 22;
 }
-#toregister:target ~ #wrapper #register,
+/*#toregister:target ~ #wrapper #register,
 #tologin:target ~ #wrapper #login{
     z-index: 22;
     -webkit-animation-name: fadeInLeft;
@@ -5704,7 +5704,7 @@ a.hiddenanchor{
     -ms-animation-name: fadeOutLeft;
     -o-animation-name: fadeOutLeft;
     animation-name: fadeOutLeft;
-}
+}*/
 
 /** the actual animation, credit where due : http://daneden.me/animate/ ***/
 .animate{

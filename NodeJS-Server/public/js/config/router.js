@@ -62,5 +62,23 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+    .state('home.login',{
+         url: "/login",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/Login/login.html',
+          controller: 'loginCtrl'
+        },
+      }
+    })
+    .state('home.register',{
+         url: "/register",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/Login/register.html',
+          controller: 'registerCtrl'
+        },
+      }
+    })
   ;
 });

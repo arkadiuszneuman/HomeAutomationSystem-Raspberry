@@ -1,6 +1,6 @@
 homeAutomationApp.controller('loginCtrl', function($scope, $http, $state) {
     
-    $scope.user = {name:'',password:''};
+    $scope.user = {name:'SD',password:'SD'};
     
     
     $scope.loginUser = function(){
