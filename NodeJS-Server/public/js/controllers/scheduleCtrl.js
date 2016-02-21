@@ -18,7 +18,8 @@ homeAutomationApp.controller('scheduleCtrl', function($scope, $http, $state, $st
     }).finally(function() {});
     $scope.add = function() {
         var newSchedule = {
-            active: true
+            active: true,
+            type: "timeofday"
         };
         $scope.schedules.push(newSchedule);
     }
