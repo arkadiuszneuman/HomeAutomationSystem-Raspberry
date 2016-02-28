@@ -1,5 +1,16 @@
-<label class="control-label col-md-3 col-sm-3 col-xs-12" for="plusminusminutes">Difference</label>
-<div class="col-md-8 col-sm-8 col-xs-11">
-    <input type="number" name="plusminusminutes" ng-model="schedule.plusminusminutes" min="-720" max="720" class="form-control col-md-7 col-xs-12">
+<div class="form-group">
+  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="plusminusminutes">Subtype</label>
+  <div class="col-md-9 col-sm-9 col-xs-12">
+      <select class="form-control" ng-model="schedule.isSunrise">
+          <option value="true">Sunrise</option>
+          <option value="false">Sunset</option>
+      </select>
+  </div>
 </div>
-<label class="control-label col-md-1 col-sm-1 col-xs-1" for="plusminusminutes">min</label>
+<div class="form-group">
+  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="plusminusminutes">Difference</label>
+  <div class="col-md-8 col-sm-8 col-xs-11">
+      <input type="number" name="plusminusminutes" ng-model="schedule.plusminusminutes" min="-720" max="720" class="form-control col-md-7 col-xs-12">
+  </div>
+  <label class="control-label col-md-1 col-sm-1 col-xs-1" for="plusminusminutes">min</label>
+</div>
