@@ -8,7 +8,8 @@
                     </li>
                     <li>
                     </li>
-                    <li><a class="close-link" ng-click="delete(schedule)"><i class="fa fa-close"></i></a>
+                    <li>
+                        <a class="close-link" ng-click="delete(schedule)"><i class="fa fa-close"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -17,16 +18,14 @@
                 <br />
                 <form novalidate name="switchSaveForm" class="form-horizontal form-label-left">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input ng-model="schedule.name" type="text" id="name" required class="form-control col-md-7 col-xs-12"
-                            autocomplete="off">
+                                   autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rxPipe">Status</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rxPipe">Status</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <select ng-model="schedule.status" class="form-control">
                                 <option value="true">On</option>
@@ -35,11 +34,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Description</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input ng-model="schedule.desc" type="text" id="desc" class="form-control col-md-7 col-xs-12"
-                            autocomplete="off">
+                                   autocomplete="off">
                         </div>
                     </div>
                     <schedule-type schedule="schedule"></schedule-type>

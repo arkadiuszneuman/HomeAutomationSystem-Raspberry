@@ -10,8 +10,8 @@
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for...">
                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Go!</button>
-                                </span>
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
             </div>
         </div>
     </div>
@@ -23,25 +23,29 @@
             <div class="x_title">
                 <h2>{{::device.name}}</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
+                            <li>
+                                <a href="#">Settings 1</a>
                             </li>
-                            <li><a href="#">Settings 2</a>
+                            <li>
+                                <a href="#">Settings 2</a>
                             </li>
                         </ul>
                     </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="col-sm-12 text-center" ng-show="device.isRefreshing">
-                    <h1><i class="fa fa-refresh fa-spin "></i><h1>
+                    <h1><i class="fa fa-refresh fa-spin "></i></h1>
                 </div>
                 <div ng-hide="device.isRefreshing">
                     <div class="row">
@@ -54,12 +58,14 @@
                         </div>
                     </div>
                     <button class="btn" ng-class="{'btn-success':device.status, 'btn-danger':!device.status}" ng-click="changeStatus(device)"
-                    ladda="device.changingStatus" ng-hide="device.connectionError">
+                            ladda="device.changingStatus" ng-hide="device.connectionError">
                         <span ng-show="device.status"><i class="fa fa-power-off"></i></span>
                         <span ng-show="!device.status"><i class="fa fa-plug"></i></span>
                     </button>
                     <button class="btn btn-warning" ng-click="refresh(device)"
-                        ladda="device.reconnecting" ng-show="device.connectionError"><i class="fa fa-refresh"></i></button>
+                            ladda="device.reconnecting" ng-show="device.connectionError">
+                        <i class="fa fa-refresh"></i>
+                    </button>
                     <button class="btn btn-primary" ng-click="schedule(device)"><i class="fa fa-calendar"></i></button>
                 </div>
             </div>
