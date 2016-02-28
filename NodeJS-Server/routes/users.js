@@ -39,20 +39,5 @@ router
             res.json({ message: 'User created!' });
         });
 });
-// router.get('/user/create',function(req,res){
-//     var newUser = new User({
-//         name:'Norek',
-//         password:'a',
-//         admin:true
-//     });
-//     
-//     newUser.save(function(err){
-//          if (err) logger.info(err);
-//          
-//          logger.info('User saved');
-//          
-//          res.json({success:true});
-//     });
-// });
 
 module.exports = router;

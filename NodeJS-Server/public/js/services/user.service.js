@@ -1,4 +1,4 @@
-angular.module('homeautomation').factory('userService', ['$http',function ($http) {
+homeAutomationApp.factory('userService', ['$http',function ($http) {
 
     function handleError(msg,err){
          return function(){return {success:false,message:msg,error:err}};  
@@ -16,6 +16,12 @@ angular.module('homeautomation').factory('userService', ['$http',function ($http
               return user;
           })
           .error(handleError('Get user by id'));
+        },
+        Create:function(user){
+          return $http.post('api/users',user).success(function(result){
+              return result;
+          })
+          .error(handleError('Createing user')); 
         }
     };
 }]);
