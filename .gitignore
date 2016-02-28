@@ -28,3 +28,8 @@ NodeJS-Server/node_modules
 NodeJS-Server/bower_components
 typings/
 
+.ntvs_analysis.dat
+.vs/
+NodeJS-Server.njsproj
+HomeAutomationSystem.sln
+.ntvs_analysis.dat.tmp
