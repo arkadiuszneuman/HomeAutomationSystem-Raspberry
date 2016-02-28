@@ -46,10 +46,12 @@ var io = require('socket.io')(server);
 var deviceRoutes = require('./routes/device')(io);
 var scheduleRoutes = require('./routes/schedule');
 var logRoutes = require('./routes/log');
+var dashboardRoutes = require('./routes/dashboard');
 
 app.use('/api', deviceRoutes);
 app.use('/api', scheduleRoutes);
 app.use('/api', logRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 io.on('connection', function (socket) {
   logger.info('a user connected');
