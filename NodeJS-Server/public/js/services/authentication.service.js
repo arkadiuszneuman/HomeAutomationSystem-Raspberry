@@ -1,5 +1,5 @@
 
-angular.module('homeautomation').factory('userService', ['$http', function ($http) {
+angular.module('homeautomation').factory('authService', ['$http', function ($http) {
 
     return {
         logIn: function (user) {
