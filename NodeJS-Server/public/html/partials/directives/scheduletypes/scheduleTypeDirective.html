@@ -1,13 +1,12 @@
 <div class="form-group">
-    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="desc">Type</span>
-    </label>
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Type</label>
     <div class="col-md-9 col-sm-9 col-xs-12">
-        <select class="form-control" ng-change="changeType(schedule.type)" ng-model="schedule.type">
+        <select class="form-control" ng-change="changeType(schedule.mainType)" ng-model="schedule.mainType">
             <option value="timeofday">Time of a day</option>
             <option value="sun">Sunrise or sunset</option>
         </select>
     </div>
 </div>
 <div class="form-group">
-  <div ng-include="'html/partials/directives/scheduletypes/' + schedule.type + '.html'"></div>
+    <div ng-include="'html/partials/directives/scheduletypes/' + schedule.mainType + '.html'"></div>
 </div>

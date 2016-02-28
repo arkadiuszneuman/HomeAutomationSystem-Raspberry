@@ -19,7 +19,7 @@ homeAutomationApp.controller('scheduleCtrl', function($scope, $http, $state, $st
     $scope.add = function() {
         var newSchedule = {
             active: true,
-            type: "timeofday",
+            mainType: "timeofday",
             subType: "sunset",
             difference: 0
         };
