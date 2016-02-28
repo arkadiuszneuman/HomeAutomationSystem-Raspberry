@@ -68,7 +68,7 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
          url: "/login",
       views: {
         'main@': {
-          templateUrl: 'html/partials/pages/Login/login.html',
+          templateUrl: 'html/Login/login.html',
           controller: 'loginCtrl'
         },
       }
@@ -77,7 +77,7 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
          url: "/register",
       views: {
         'main@': {
-          templateUrl: 'html/partials/pages/Login/register.html',
+          templateUrl: 'html/Login/register.html',
           controller: 'registerCtrl'
         },
       }
