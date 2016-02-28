@@ -8,7 +8,7 @@ homeAutomationApp.controller('scheduleCtrl', function($scope, $http, $state, $st
                 if (device.schedule[i].status === true) {
                     device.schedule[i].status = "true";
                 } else {
-                    device.schedule[i].status = "false"
+                    device.schedule[i].status = "false";
                 }
             }
             $scope.schedules = device.schedule;
@@ -20,8 +20,8 @@ homeAutomationApp.controller('scheduleCtrl', function($scope, $http, $state, $st
         var newSchedule = {
             active: true,
             type: "timeofday",
-            isSunrise: "true",
-            plusminusminutes: 0
+            subType: "sunset",
+            difference: 0
         };
         $scope.schedules.push(newSchedule);
     }
