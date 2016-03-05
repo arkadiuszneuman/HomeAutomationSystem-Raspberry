@@ -1,5 +1,5 @@
-homeAutomationApp.controller('registerCtrl', function($scope, $http, $state) {
-    
+homeAutomationApp.controller('profileCtrl', function($scope, $http, $state) {
+    $scope.sss = 'ss';
 });
 
 

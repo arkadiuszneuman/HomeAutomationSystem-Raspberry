@@ -82,5 +82,23 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         },
       }
     })
+    .state('home.profile',{
+         url: "/profile",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/profile/profile.html',
+          controller: 'profileCtrl'
+        },
+      }
+    })
+    .state('home.users',{
+         url: "/users",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/user/usersManagerment.html',
+          controller: 'usersManagermentCtrl'
+        },
+      }
+    })
   ;
 });

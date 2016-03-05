@@ -61,9 +61,9 @@ homeAutomationApp.factory('userService',['$http','storageService',function ($htt
         setUser:function(_user){
             currentUser.name = _user.name;
         },
-        GetAll: function () {
+        GetAll: function (callback) {
             return $http.get('api/users/').success(function (users) {
-                return users;
+                callback(users);
             })
                 .error(handleError('Get all users'));
         },
