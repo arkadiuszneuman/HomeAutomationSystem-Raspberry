@@ -1,64 +1,49 @@
 
-homeAutomationApp.factory('authService', ['$http','$window', function ($http,$window) {
+homeAutomationApp.factory('authService', ['$http', 'storageService', 'userService', function ($http, storageService, userService) {
 
-    function setToLocalStorage(key,value){
-         $window.localStorage[key] = value;
-    };
-    
     return {
-        on:function(s){
-            
+        Login: function (user, callback) {
+            return $http.post('api/authenticate', user)
+                .success(function (result) {
+
+                    if (result.success) {
+                        storageService.set('id', user.id);
+                        storageService.set('name', user.name);
+                        storageService.set('password', user.password);
+                        storageService.set('HACToken', result.token);
+
+                        userService.setUser(user);
+
+                        callback({ success: true });
+                    } else {
+                        callback(result);
+                    }
+                })
+                .error(function (err) {
+
+                    callback({ success: false, message: err });
+                });
         },
-        Login: function (user) {
-            return $http.post('api/authenticate/', user)
-                .success(function(result){
-                    
-                setToLocalStorage('name',result.name);
-                setToLocalStorage('password',result.password);
-                setToLocalStorage('HACToken',result.token);
-                
-                return {success:true};
-            })
-            .error(function(err){
-               
-               return {success:false,message:err}; 
-            });
+        Logout: function (callback) {
+            storageService.set('id', '');
+            storageService.set('name', '');
+            storageService.set('password', '');
+            storageService.set('HACToken', '');
+
+            userService.setUser({});
+
+            callback({ success: true });
         }
     }
 }]);
 
-homeAutomationApp.factory('authInterceptor',['authService',function(authService){
+homeAutomationApp.factory('authInterceptor', ['storageService', function (storageService) {
     var myInterceptor = {
-        request:function(config){
-           config.headers['x-access-token'] = authService.get('HACToken');
-           return config;
+        request: function (config) {
+            config.headers['x-access-token'] = storageService.get('HACToken');
+            return config;
         }
     };
-    
+
     return myInterceptor;
 }]);
-
-homeAutomationApp.config(['$httpProvider',function($httpProvider){
-    $httpProvider.interceptors.push('authInterceptor');
-}]);
-
-// homeAutomationApp.factory('authService', ['$window', function($window) {
-//     
-//    var authData ={IsLoggedIn:false};
-//     
-//   return {
-//     set: function(key, value) {
-//       $window.localStorage[key] = value;
-//     },
-//     get: function(key, defaultValue) {
-//       return $window.localStorage[key] || defaultValue;
-//     },
-//     setObject: function(key, value) {
-//       $window.localStorage[key] = JSON.stringify(value);
-//     },
-//     getObject: function(key) {
-//       return JSON.parse($window.localStorage[key] || '{}');
-//     },
-//     authData
-//   }
-// }]);
