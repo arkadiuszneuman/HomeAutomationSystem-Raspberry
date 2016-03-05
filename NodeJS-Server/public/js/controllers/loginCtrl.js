@@ -1,8 +1,7 @@
 /* global PNotify */
 homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, notify, authService) {
+  
     $scope.user = { name: '', password: '' };
-
-
 
     $scope.loginUser = function () {
         authService.Login($scope.user, function (loginResult) {
