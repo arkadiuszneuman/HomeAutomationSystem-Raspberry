@@ -5663,18 +5663,14 @@ a.hiddenanchor{
     display: none;
 }
 /** The wrapper that will contain our two forms **/
-#register{
+#register,#login{
     right: 0px;
     margin: 0px auto;
     margin-top: 5%;
     max-width: 350px;
     position: relative;
 }
-#register
-#login{
-    position: absolute;
-    top: 0px; width:100%;
-}
+
 #register{	
     z-index: 21;
     width:100%;

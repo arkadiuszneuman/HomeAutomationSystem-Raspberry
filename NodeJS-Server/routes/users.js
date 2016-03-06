@@ -46,8 +46,6 @@ router
             });
         }
     });
-    
-
 });
 
 module.exports = router;

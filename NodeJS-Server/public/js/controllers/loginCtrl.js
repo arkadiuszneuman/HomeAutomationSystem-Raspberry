@@ -1,28 +1,30 @@
 /* global PNotify */
 homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, notify, authService) {
-  
-    $scope.user = { name: '', password: '' };
 
-    $scope.loginUser = function () {
-        authService.Login($scope.user, function (loginResult) {
+    $scope.user = { email: '', password: '' };
 
-            if (loginResult.success) {
-                notify.show({
-                    title: 'Welcome in Home Automation System',
-                    text: 'login success',
-                    type: 'success'
-                });
+    $scope.loginUser = function (isValid) {
 
-                $state.go('home.logs');
+        if (isValid) {
+            authService.Login($scope.user, function (loginResult) {
 
-            } else {
-                notify.show({
-                    title: 'Login failed',
-                    text: loginResult.message,
-                    type: 'error'
-                });
-            }
+                if (loginResult.success) {
+                    notify.show({
+                        title: 'Welcome in Home Automation System',
+                        text: 'login success',
+                        type: 'success'
+                    });
 
-        });
+                    $state.go('home.logs');
+
+                } else {
+                    notify.show({
+                        title: 'Login failed',
+                        text: loginResult.message,
+                        type: 'error'
+                    });
+                }
+            });
+        }
     };
 });
