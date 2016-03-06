@@ -4,20 +4,24 @@ homeAutomationApp.factory('userService', ['$http', 'storageService', function ($
         return function () { return { success: false, message: msg, error: err } };
     };
 
-    var currentUser = { login: '' };
+    var currentUser = { firstName: '',lastName: '',isLoaded:false };
 
     return {
         user: function () {
 
-            if (currentUser.login == '') {
-                currentUser.login = storageService.get('login');
+            if (!currentUser.isLoaded) {
+                currentUser.firstName = storageService.get('firstName');
+                currentUser.lastName = storageService.get('lastName');
+                currentUser.isLoaded = true;
             }
 
             return currentUser;
         },
 
         setUser: function (_user) {
-            currentUser.login = _user.login;
+            currentUser.firstName = _user.firstName;
+            currentUser.lastName = _user.lastName;
+            currentUser.isLoaded = true;
         },
         GetAll: function (callback) {
             return $http.get('api/users/').success(function (users) {

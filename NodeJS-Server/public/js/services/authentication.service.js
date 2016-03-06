@@ -7,12 +7,13 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
                 .success(function (result) {
 
                     if (result.success) {
-                        storageService.set('id', user._id);
-                        storageService.set('login', user.login);
-                        storageService.set('password', user.password);
+                        storageService.set('id', result.user._id);
+                        storageService.set('email', result.user.email);
+                        storageService.set('firstName', result.user.firstName);
+                        storageService.set('lastName', result.user.lastName);
                         storageService.set('HACToken', result.token);
 
-                        userService.setUser(user);
+                        userService.setUser(result.user);
 
                         callback({ success: true });
                     } else {
@@ -26,8 +27,9 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
         },
         Logout: function (callback) {
             storageService.set('id', '');
-            storageService.set('login', '');
-            storageService.set('password', '');
+            storageService.set('email', '');
+            storageService.set('firstName', '');
+            storageService.set('lastName', '');
             storageService.set('HACToken', '');
 
             userService.setUser({});

@@ -1,12 +1,11 @@
-/* global PNotify */
 homeAutomationApp.controller('loginCtrl', function ($scope, $http, $state, notify, authService) {
 
-    $scope.user = { email: '', password: '' };
+    $scope.loginCredentials = { email: '', password: '' };
 
     $scope.loginUser = function (isValid) {
 
         if (isValid) {
-            authService.Login($scope.user, function (loginResult) {
+            authService.Login($scope.loginCredentials, function (loginResult) {
 
                 if (loginResult.success) {
                     notify.show({

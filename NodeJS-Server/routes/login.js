@@ -29,10 +29,10 @@ module.exports = function isAuth(req, res, next) {
 
 router.post('/authenticate',function(req,res){
     
-    logger.log("auth started");
+    logger.info("auth started");
     
     User.findOne({
-        login:req.body.login
+        email:req.body.email
     },function(err,user){
         if (err) logger.info(err);
         
@@ -43,19 +43,15 @@ router.post('/authenticate',function(req,res){
             if (user.password != req.body.password) {
                 res.json({success:false,message:"Password failed"});
             }else{
-                
-                logger.info(config.secret);
-                var token = jwt.sign(user,config.secret,{
-                    expiresIn:1440
-                });
-                
-                
-                logger.info('User ' + user.login + ' has logged in');
+                var token = jwt.sign(user,config.secret,{expiresIn:1440});
+                 
+                logger.info('User ' + user.email + ' has logged in');
                 
                 res.json({
                     success:true,
                     message:'Cool login complete',
-                    token:token
+                    token:token,
+                    user:user
                 });
             }
         }    
