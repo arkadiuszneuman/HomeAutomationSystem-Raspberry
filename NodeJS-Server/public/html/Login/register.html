@@ -1,35 +1,31 @@
-<!--<div id="wrapper">
-    <div id="register" class="animate form">-->
-        <!--<section class="login_content">-->
-        <form>
+<div id="register">
+    <section class="login_content">
+        <form name="registerForm">
             <h1>Create Account</h1>
             <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Username" required ng-model="user.firstName" ng-minlength="3"/>
             </div>
             <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="text" class="form-control" placeholder="Lastname" required  ng-model="user.lastName"/>
             </div>
             <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="email" class="form-control" name="email" placeholder="Email" required ng-model="user.email"/>
             </div>
             <div>
-                <a class="btn btn-default submit" href="index.html">Submit</a>
+                <input type="password" class="form-control" placeholder="Password" required="" ng-model="user.password"/>
+            </div>
+            <div>
+                <a class="btn btn-default submit" ng-click="CreateUser(registerForm.$valid)" ng-disabled="registerForm.$invalid">Submit</a>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
 
                 <p class="change_link">Already a member ?
-                    <a ui-sref="home.login" class="to_register"> Log in </a>
+                    <a ui-sref="home.login"> Log in </a>
                 </p>
                 <div class="clearfix"></div>
                 <br />
-                <div>
-                    <!--<h1><i class="fa fa-paw" style="font-size: 26px;"></i> Gentelella Alela!</h1>-->
-                </div>
             </div>
         </form>
-        <!-- form -->
-        </section>
-        <!-- content -->
-    <!--</div>-->
-<!--</div>-->
+    </section>
+</div>

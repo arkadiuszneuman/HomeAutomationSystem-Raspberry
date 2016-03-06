@@ -14,5 +14,11 @@ LoadUsers();
                 LoadUsers();
             }
         });
+    };
+    
+    $scope.currentUser = {};
+    
+    $scope.editUser = function(user){
+        $scope.currentUser = user;
     }
 });

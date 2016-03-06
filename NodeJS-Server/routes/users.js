@@ -26,18 +26,28 @@ router
    });
 })
 .post('/users/',function(req,res){
+   
     logger.info(JSON.stringify(req.body));
-     var user = new User();
-        user.name = req.body.name;
-        user.password = req.body.password;
-        user.admin = req.body.admin;
+    
+    User.find({ email: req.body.email }, function (err, users) {
+        if (err) logger.info(err);
 
-        user.save(function(err) {
-            if (err)
-                res.send(err);
+        if (users.length > 0) {
+            res.json({ success: false, message: 'There is user with same email' });
+        } else {
+            var user = new User(req.body);
+            user.save(function (err) {
+                if (err) {
+                    logger.error(err);
+                    res.json({ success: false, message: err.message });
+                } else {
+                    res.json({ success: true });
+                }
+            });
+        }
+    });
+    
 
-            res.json({ message: 'User created!' });
-        });
 });
 
 module.exports = router;

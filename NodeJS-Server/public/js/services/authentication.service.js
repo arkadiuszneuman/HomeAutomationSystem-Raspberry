@@ -7,8 +7,8 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
                 .success(function (result) {
 
                     if (result.success) {
-                        storageService.set('id', user.id);
-                        storageService.set('name', user.name);
+                        storageService.set('id', user._id);
+                        storageService.set('login', user.login);
                         storageService.set('password', user.password);
                         storageService.set('HACToken', result.token);
 
@@ -26,7 +26,7 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
         },
         Logout: function (callback) {
             storageService.set('id', '');
-            storageService.set('name', '');
+            storageService.set('login', '');
             storageService.set('password', '');
             storageService.set('HACToken', '');
 

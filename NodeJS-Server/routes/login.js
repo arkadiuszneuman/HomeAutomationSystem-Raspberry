@@ -32,7 +32,7 @@ router.post('/authenticate',function(req,res){
     logger.log("auth started");
     
     User.findOne({
-        name:req.body.name
+        login:req.body.login
     },function(err,user){
         if (err) logger.info(err);
         
@@ -50,7 +50,7 @@ router.post('/authenticate',function(req,res){
                 });
                 
                 
-                logger.info('User ' + user.name + ' has logged in');
+                logger.info('User ' + user.login + ' has logged in');
                 
                 res.json({
                     success:true,

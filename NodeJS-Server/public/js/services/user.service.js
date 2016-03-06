@@ -4,20 +4,20 @@ homeAutomationApp.factory('userService', ['$http', 'storageService', function ($
         return function () { return { success: false, message: msg, error: err } };
     };
 
-    var currentUser = { name: '' };
+    var currentUser = { login: '' };
 
     return {
         user: function () {
 
-            if (currentUser.name == '') {
-                currentUser.name = storageService.get('name');
+            if (currentUser.login == '') {
+                currentUser.login = storageService.get('login');
             }
 
             return currentUser;
         },
 
         setUser: function (_user) {
-            currentUser.name = _user.name;
+            currentUser.login = _user.login;
         },
         GetAll: function (callback) {
             return $http.get('api/users/').success(function (users) {
@@ -31,9 +31,9 @@ homeAutomationApp.factory('userService', ['$http', 'storageService', function ($
             })
                 .error(handleError('Get user by id'));
         },
-        Create: function (user) {
+        Create: function (user,callback) {
             return $http.post('api/users', user).success(function (result) {
-                return result;
+                callback(result);
             })
                 .error(handleError('Createing user'));
         }
