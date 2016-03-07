@@ -4,6 +4,5 @@ homeAutomationApp.controller('logsCtrl', function($scope, $http, $state) {
         $scope.logs = data;
     }).error(function(err) {
         console.log(err);
-        $state.go('home.login');
     });
 });

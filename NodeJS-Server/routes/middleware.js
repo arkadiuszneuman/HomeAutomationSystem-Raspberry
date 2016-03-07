@@ -14,14 +14,14 @@ module.exports = {
             jwt.verify(token, config.secret, function (err, decoded) {
                 if (err) {
                     logger.info(err.message);
-                    return res.json({ success: false, message: err.message });
+                    res.status(401).send({ success: false, message: 'Token expired' });
                 } else {
                     req.decoded = decoded;
                     next();
                 }
             });
         } else {
-            return res.status(403).send({ success: false, message: 'No token provided' });
+            return res.status(401).send({ success: false, message: 'No token provided' });
         }
 
     }
