@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
+var midleware = require('./routes/middleware')
 // var scheduler = require('./modules/scheduler');
 
 //Auth part
@@ -39,6 +40,7 @@ app.get('/', function (req, res) {
 //api
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(midleware.methodLogger);
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;

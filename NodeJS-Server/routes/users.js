@@ -3,14 +3,12 @@ var express = require('express');
 var models = require('../models');
 var router = express.Router();
 var User = require('../models/user');
+var authProvider = require('./middleware');
 
 router
-.use(function(req, res, next) {
-    console.log(req.method, req.url);
-    next(); 
-})
+.use(authProvider.isAuth)
 .get('/users', function (req, res) {
-
+    logger.info('ss');
     User.find({}, function (err, users) {
         if (err) logger.info(err);
 
