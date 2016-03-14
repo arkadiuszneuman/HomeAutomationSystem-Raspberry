@@ -33,3 +33,6 @@ typings/
 NodeJS-Server.njsproj
 HomeAutomationSystem.sln
 .ntvs_analysis.dat.tmp
+bin/
+obj/
+NodeJS-Server/dist/
