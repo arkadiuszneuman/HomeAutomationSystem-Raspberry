@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
 var scheduler = require('./modules/scheduler');
+var path = require('path');
+var dir = require('node-dir');
 
 //configure logger for mongo
 require('winston-mongodb').MongoDB;
@@ -23,12 +25,39 @@ app.use(restResponse({
   showDefaultMessage: false
 }));
 
-app.use('/', express.static(__dirname + '/public'));
+if (process.env.NODE_ENV === 'dev') {
+    app.use('/', express.static(__dirname + '/public'));
+} else {
+    app.use('/', express.static(__dirname + '/dist'));
+}
+
 app.use('/', express.static(__dirname + '/bower_components'));
 
+app.set('view engine', 'ejs');
+
 //serve main file
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/public/html/index.html');
+app.get('/', function(req, res) {
+    if (process.env.NODE_ENV === 'dev') {
+        dir.files(__dirname + '/public/js/', function(err, files) {
+            if (err) throw err;
+
+            files = files.filter(function(file) {
+                return file.indexOf('.js') > -1;
+            });
+            files = files.filter(function(file) {
+                return file.indexOf('template\\') === -1;
+            });
+
+            for (var i = 0; i < files.length; ++i) {
+                files[i] = files[i].replace(path.join(__dirname, 'public'), '').split(path.sep).join('/');
+            }
+
+            console.log(files);
+            res.render(__dirname + '/public/html/index.ejs', { files: files });
+        });
+    } else {
+        res.render(__dirname + '/public/html/index.ejs', { files: __dirname + '/dist/has.js' });
+    }
 });
 
 //api

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="homeautomation">
 
 <head>
@@ -39,15 +39,8 @@
     <script src="angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="angular-cron-jobs/dist/angular-cron-jobs.min.js"></script>
 
-
-
-    <script src="js/config/config.js"></script>
-    <script src="js/config/router.js"></script>
-    <script src="js/directives/scheduleTypeDirective.js"></script>
-    <script src="js/controllers/mainCtrl.js"></script>
-    <script src="js/controllers/addDeviceCtrl.js"></script>
-    <script src="js/controllers/scheduleCtrl.js"></script>
-    <script src="js/controllers/logsCtrl.js"></script>
+    <% files.forEach(function(file) { %>
+    <script src="<%= file %>"></script><% }); %>
 
     <script>
         NProgress.start();
