@@ -29,7 +29,8 @@
     <script src="js/template/jquery.min.js"></script>
     <script src="js/template/nprogress.js"></script>
 
-    <link rel="stylesheet" href="/ladda/dist/ladda-themeless.min.css">
+    <% bowerCSSFiles.forEach(function(file) { %>
+    <link rel="stylesheet" href="<%= file %>"><% }); %>
 
     <% bowerJSFiles.forEach(function(file) { %>
     <script src="<%= file %>"></script><% }); %>

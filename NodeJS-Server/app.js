@@ -56,10 +56,10 @@ app.get('/', function (req, res) {
                 jsFiles[i] = jsFiles[i].replace(path.join(__dirname, 'public'), '').split(path.sep).join('/');
             }
             
-            res.render(__dirname + '/public/html/index.ejs', { jsFiles: jsFiles, bowerJSFiles: bowerComponents.js });
+            res.render(__dirname + '/public/html/index.ejs', { jsFiles: jsFiles, bowerJSFiles: bowerComponents.js, bowerCSSFiles: bowerComponents.css });
         });
     } else {
-        res.render(__dirname + '/public/html/index.ejs', { jsFiles: __dirname + '/dist/has.js', bowerJSFiles: bowerComponents.js });
+        res.render(__dirname + '/public/html/index.ejs', { jsFiles: __dirname + '/dist/has.js', bowerJSFiles: bowerComponents.js, bowerCSSFiles: bowerComponents.css });
     }
 });
 

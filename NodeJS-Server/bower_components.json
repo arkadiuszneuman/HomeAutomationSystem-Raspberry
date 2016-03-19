@@ -7,5 +7,8 @@
         "angular-ladda/dist/angular-ladda.min.js",
         "angular-ui-router/release/angular-ui-router.min.js",
         "angular-cron-jobs/dist/angular-cron-jobs.min.js"
+    ],
+    "css": [
+        "ladda/dist/ladda-themeless.min.css"
     ]
 }
