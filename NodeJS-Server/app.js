@@ -36,27 +36,30 @@ app.use('/', express.static(__dirname + '/bower_components'));
 app.set('view engine', 'ejs');
 
 //serve main file
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
+    var fs = require('fs');
+    var file = fs.readFileSync('bower_components.json', 'utf8');
+    var bowerComponents = JSON.parse(file.toString().trim());
+
     if (process.env.NODE_ENV === 'dev') {
-        dir.files(__dirname + '/public/js/', function(err, files) {
+        dir.files(__dirname + '/public/js/', function(err, jsFiles) {
             if (err) throw err;
 
-            files = files.filter(function(file) {
+            jsFiles = jsFiles.filter(function(file) {
                 return file.indexOf('.js') > -1;
             });
-            files = files.filter(function(file) {
+            jsFiles = jsFiles.filter(function(file) {
                 return file.indexOf('template\\') === -1;
             });
 
-            for (var i = 0; i < files.length; ++i) {
-                files[i] = files[i].replace(path.join(__dirname, 'public'), '').split(path.sep).join('/');
+            for (var i = 0; i < jsFiles.length; ++i) {
+                jsFiles[i] = jsFiles[i].replace(path.join(__dirname, 'public'), '').split(path.sep).join('/');
             }
-
-            console.log(files);
-            res.render(__dirname + '/public/html/index.ejs', { files: files });
+            
+            res.render(__dirname + '/public/html/index.ejs', { jsFiles: jsFiles, bowerJSFiles: bowerComponents.js });
         });
     } else {
-        res.render(__dirname + '/public/html/index.ejs', { files: __dirname + '/dist/has.js' });
+        res.render(__dirname + '/public/html/index.ejs', { jsFiles: __dirname + '/dist/has.js', bowerJSFiles: bowerComponents.js });
     }
 });
 

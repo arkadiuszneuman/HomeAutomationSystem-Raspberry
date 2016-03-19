@@ -31,15 +31,10 @@
 
     <link rel="stylesheet" href="/ladda/dist/ladda-themeless.min.css">
 
-    <script src="socket.io-client/socket.io.js"></script>
-    <script src="angular/angular.min.js"></script>
-    <script src="ladda/dist/spin.min.js"></script>
-    <script src="ladda/dist/ladda.min.js"></script>
-    <script src="angular-ladda/dist/angular-ladda.min.js"></script>
-    <script src="angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="angular-cron-jobs/dist/angular-cron-jobs.min.js"></script>
+    <% bowerJSFiles.forEach(function(file) { %>
+    <script src="<%= file %>"></script><% }); %>
 
-    <% files.forEach(function(file) { %>
+    <% jsFiles.forEach(function(file) { %>
     <script src="<%= file %>"></script><% }); %>
 
     <script>
