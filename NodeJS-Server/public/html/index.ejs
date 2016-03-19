@@ -45,7 +45,6 @@
     <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
         <![endif]-->
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -65,12 +64,12 @@
             </div>
 
             <div id="custom_notifications" class="custom-notifications dsp_none">
-                <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-                </ul>
+                <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
                 <div class="clearfix"></div>
                 <div id="notif-group" class="tabbed_notifications"></div>
             </div>
-
+        </div>
+    </div>
 
     <script src="js/template/bootstrap.min.js"></script>
 
@@ -147,7 +146,7 @@
                     axisLabelFontSizePixels: 12,
                     axisLabelFontFamily: 'Verdana, Arial',
                     axisLabelPadding: 10
-                        //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
+                    //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
                 },
                 yaxis: {
                     ticks: 8,
@@ -190,8 +189,8 @@
     <script src="js/template/skycons/skycons.js"></script>
     <script>
         var icons = new Skycons({
-                "color": "#73879C"
-            }),
+            "color": "#73879C"
+        }),
             list = [
                 "clear-day", "clear-night", "partly-cloudy-day",
                 "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
@@ -228,7 +227,7 @@
                 value: 120,
                 color: "#3498DB"
             }
-    ];
+        ];
         var myDoughnut = new Chart(document.getElementById("canvas1").getContext("2d")).Doughnut(doughnutData);
     </script>
     <!-- /dashbord linegraph -->
