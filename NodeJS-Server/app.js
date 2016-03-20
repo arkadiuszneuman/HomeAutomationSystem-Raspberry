@@ -40,7 +40,7 @@ app.get('/', function (req, res) {
 //api
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(midleware.methodLogger);
+
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
@@ -61,9 +61,11 @@ var loginRoutes = require('./routes/login')
 
 // app.use('/api', deviceRoutes);
 // // app.use('/api', scheduleRoutes);
+app.use('/api', loginRoutes);
+
+app.use(midleware.methodLogger);
 app.use('/api', logRoutes);
 app.use('/api', userRoutes);
-app.use('/api', loginRoutes);
 // app.use('/', loginRoutes);
 
 io.on('connection', function (socket) {

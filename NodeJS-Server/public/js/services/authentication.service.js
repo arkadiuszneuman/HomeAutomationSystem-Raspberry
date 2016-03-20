@@ -14,11 +14,12 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
                         storageService.set('HACToken', result.token);
 
                         userService.setUser(result.user);
+                        callback({ success: result.success, message: result.message });
                     }
                 })
                 .error(function (err) {
 
-                    callback({ success: false, message: err });
+                    callback({ success: err.success, message: err.message });
                 });
         },
         Logout: function (callback) {
