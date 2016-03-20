@@ -48,3 +48,14 @@ homeAutomationApp.factory('storageService', ['$window', function ($window) {
 homeAutomationApp.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
 }]);
+
+homeAutomationApp.directive('userModal', function() {
+   return {
+     restrict: 'A',
+     link: function(scope, element, attr) {
+       scope.dismissModal = function() {
+           element.modal('hide');
+       };
+     }
+   } 
+});
