@@ -23,6 +23,16 @@ router
         res.json(user);
    });
 })
+.delete('/users/:id',function(req,res){
+    
+    User.findByIdAndRemove(req.params.id,function(err){
+               
+        if(err) res.json({ success: false, message: err.message });
+        
+        res.status(200).send({success:true});
+    });
+    
+})
 .post('/users/',function(req,res){
    
     logger.info(JSON.stringify(req.body));
