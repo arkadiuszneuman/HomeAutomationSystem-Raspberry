@@ -6,13 +6,18 @@ homeAutomationApp.config(function (laddaProvider) {
     });
 });
 
-homeAutomationApp.factory('notify', [function () {
+homeAutomationApp.factory('notify', [function() {
     return {
-        show: function (options) {
+        show: function(options) {
             new PNotify({
                 title: options.title,
                 text: options.text,
-                type: options.type
+                type: options.type,
+                icon: false,
+                buttons: {
+                    closer: false,
+                    sticker: false
+                }
             });
         }
     }
