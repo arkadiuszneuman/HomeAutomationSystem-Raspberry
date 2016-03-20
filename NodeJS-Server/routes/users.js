@@ -34,6 +34,17 @@ router
     
 })
 .post('/users/',function(req,res){
+    User.findByIdAndUpdate(req.body._id,req.body,function(err,u){
+        if(err){
+            logger.error(err);
+            res.json({ success: false, message: err.message });
+        }else{
+            res.status(200).send({ success: true });
+        }
+        
+    });
+})
+.put('/users/',function(req,res){
    
     logger.info(JSON.stringify(req.body));
     

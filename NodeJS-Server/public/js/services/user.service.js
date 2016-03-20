@@ -35,8 +35,20 @@ homeAutomationApp.factory('userService', ['$http', 'storageService', function ($
             })
                 .error(handleError('Get user by id'));
         },
-        Create: function (user,callback) {
+        Remove: function (id,callback) {
+            return $http.delete('api/users/' + id).success(function (result) {
+                callback(result);
+            })
+                .error(handleError('delete user'));
+        },
+        Update: function (user,callback) {
             return $http.post('api/users', user).success(function (result) {
+                callback(result);
+            })
+                .error(handleError('Updating user'));
+        },
+        Create: function (user,callback) {
+            return $http.put('api/users', user).success(function (result) {
                 callback(result);
             })
                 .error(handleError('Createing user'));

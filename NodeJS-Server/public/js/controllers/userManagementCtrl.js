@@ -12,14 +12,20 @@ function createNewUser(){
 
 LoadUsers();
     
-    $scope.removeUser = function(user){
-        userService.Delete(user._id,function(result){
+    $scope.removeUser = function(user) {
+        userService.Remove(user._id, function(result) {
             if (result.success) {
                 LoadUsers();
+            } else {
+                notify.show({
+                    title: 'delete failed',
+                    text: result.message,
+                    type: 'error'
+                });
             }
         });
     };
-    
+
     $scope.currentUser = {};
     $scope.editedUser = createNewUser();
     
@@ -37,19 +43,36 @@ LoadUsers();
     
     $scope.saveUser = function(valid, user) {
         if (valid) {
-            userService.Create(user, function(result) {
 
-                if (result.success) {
-                    $scope.dismissModal();
-                    LoadUsers();
-                } else {
-                      notify.show({
-                        title: 'Creation failed',
-                        text: result.message,
-                        type: 'error'
-                    });
-                }
-            });
+            if (user._id != "") {
+                userService.Update(user, function(result) {
+
+                    if (result.success) {
+                        $scope.dismissModal();
+                        LoadUsers();
+                    } else {
+                        notify.show({
+                            title: 'Creation failed',
+                            text: result.message,
+                            type: 'error'
+                        });
+                    }
+                });
+            } else {
+                userService.Create(user, function(result) {
+
+                    if (result.success) {
+                        $scope.dismissModal();
+                        LoadUsers();
+                    } else {
+                        notify.show({
+                            title: 'Creation failed',
+                            text: result.message,
+                            type: 'error'
+                        });
+                    }
+                });
+            }
         }
     };
 });
