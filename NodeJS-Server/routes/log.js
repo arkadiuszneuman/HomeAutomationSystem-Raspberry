@@ -1,9 +1,36 @@
 var logger = require('winston');
 var express = require('express');
 var models = require('../models');
+var loginProvider = require('./login.js');
 var router = express.Router();
+    
+    
+var jwt = require('jsonwebtoken');
+var config = require('../modules/authConfig');
 
-router.get('/log', function(req, res) {
+function isAuth(req, res, next) {
+
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    // 
+    if (token) {
+
+        console.log(config.secret);
+        console.log(token);
+        jwt.verify(token, config.secret, function (err, decoded) {
+            if (err) {
+                console.log(err);
+                return res.json({ success: false, message: 'Failed to auth token' });
+            } else {
+                next();
+            }
+        });
+    } else {
+        return res.status(403).send({ success: false, message: 'No token provided' });
+    }
+};
+
+
+router.get('/log', isAuth ,function(req, res) {
     logger.info('Getting logs list');
     models.Log.find(null, null, { sort: '-_id', skip: 0, limit: 50 }, function(err, logs) {
         if (err) logger.info(err);

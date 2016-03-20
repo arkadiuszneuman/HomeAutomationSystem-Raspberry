@@ -18,9 +18,11 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
       views: {
         'menu': {
           templateUrl: 'html/partials/menu.html',
+          controller: 'mainCtrl'
         },
         'content': {
           templateUrl: 'html/partials/content.html',
+          controller: 'mainCtrl'
         },
       }
     })
@@ -67,6 +69,42 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
         'main@': {
           templateUrl: 'html/partials/pages/logs/logs.html',
           controller: 'logsCtrl'
+        },
+      }
+    })
+    .state('home.login',{
+         url: "/login",
+      views: {
+        'main@': {
+          templateUrl: 'html/Login/login.html',
+          controller: 'loginCtrl'
+        },
+      }
+    })
+    .state('home.register',{
+         url: "/register",
+      views: {
+        'main@': {
+          templateUrl: 'html/Login/register.html',
+          controller: 'registerCtrl'
+        },
+      }
+    })
+    .state('home.profile',{
+         url: "/profile",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/profile/profile.html',
+          controller: 'profileCtrl'
+        },
+      }
+    })
+    .state('home.users',{
+         url: "/users",
+      views: {
+        'main@': {
+          templateUrl: 'html/partials/pages/user/usersManagerment.html',
+          controller: 'usersManagermentCtrl'
         },
       }
     })
