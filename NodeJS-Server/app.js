@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
+var midleware = require('./routes/middleware')
 // var scheduler = require('./modules/scheduler');
 var path = require('path');
 var dir = require('node-dir');
@@ -34,6 +35,7 @@ if (process.env.NODE_ENV === 'dev') {
     app.use('/', express.static(__dirname + '/dist'));
 }
 
+app.use('/', express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/bower_components'));
 
 app.set('view engine', 'ejs');
@@ -71,6 +73,7 @@ app.get('/', function (req, res) {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 var server = app.listen(process.env.PORT || 3000, function () {
     var host = server.address().address;
     var port = server.address().port;
@@ -88,10 +91,12 @@ var loginRoutes = require('./routes/login');
 
 app.use('/api', deviceRoutes);
 app.use('/api', scheduleRoutes);
+app.use('/api', loginRoutes);
+
+app.use(midleware.methodLogger);
 app.use('/api', logRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', userRoutes);
-app.use('/api', loginRoutes);
 
 io.on('connection', function (socket) {
     logger.info('a user connected');

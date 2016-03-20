@@ -14,15 +14,12 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
                         storageService.set('HACToken', result.token);
 
                         userService.setUser(result.user);
-
-                        callback({ success: true });
-                    } else {
-                        callback(result);
+                        callback({ success: result.success, message: result.message });
                     }
                 })
                 .error(function (err) {
 
-                    callback({ success: false, message: err });
+                    callback({ success: err.success, message: err.message });
                 });
         },
         Logout: function (callback) {
@@ -39,11 +36,20 @@ homeAutomationApp.factory('authService', ['$http', 'storageService', 'userServic
     }
 }]);
 
-homeAutomationApp.factory('authInterceptor', ['storageService', function (storageService) {
+homeAutomationApp.factory('authInterceptor', ['$q','$injector', 'storageService', function ($q,$injector, storageService) {
     var myInterceptor = {
         request: function (config) {
             config.headers['x-access-token'] = storageService.get('HACToken');
             return config;
+        },
+        responseError: function (response) {
+            
+            if (response.status == 401) {
+                console.log(response.status);
+                $injector.get('$state').transitionTo('home.login');
+            }
+            
+            return $q.reject(response);
         }
     };
 
