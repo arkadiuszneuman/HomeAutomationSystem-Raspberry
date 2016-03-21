@@ -1,10 +1,14 @@
 homeAutomationApp.controller('registerCtrl', function ($scope, $http, $state, notify, userService) {
 
-    $scope.user = { firstName: '', lastName: '', email: '', password: '' };
+    function createNewUser(){
+        return {firstName:"",lastName:"",admin:false,email:"",password:""};
+    }
 
-    $scope.CreateUser = function (isValid) {
+    $scope.user = createNewUser();
+
+    $scope.createUser = function (isValid,user) {
         if (isValid) {
-            userService.Create($scope.user, function (result) {
+            userService.Create(user, function (result) {
 
                 if (result.success) {
                     notify.show({

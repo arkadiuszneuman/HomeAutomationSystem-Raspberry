@@ -1,6 +1,6 @@
 <div id="register">
     <section class="login_content">
-        <form name="registerForm">
+        <form name="registerForm" ng-submit="createUser(registerForm.$valid,user)">
             <h1>Create Account</h1>
             <div>
                 <input type="text" class="form-control" placeholder="Username" required ng-model="user.firstName" ng-minlength="3"/>
@@ -15,7 +15,7 @@
                 <input type="password" class="form-control" placeholder="Password" required="" ng-model="user.password"/>
             </div>
             <div>
-                <a class="btn btn-default submit" ng-click="CreateUser(registerForm.$valid)" ng-disabled="registerForm.$invalid">Submit</a>
+                <button type="submit" ng-disabled="registerForm.$invalid">Submit</a>
             </div>
             <div class="clearfix"></div>
             <div class="separator">
