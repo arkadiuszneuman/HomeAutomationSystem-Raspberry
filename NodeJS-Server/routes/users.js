@@ -34,6 +34,8 @@ router
     
 })
 .post('/users/',function(req,res){
+    logger.info(JSON.stringify(req.body));
+    
     User.findByIdAndUpdate(req.body._id,req.body,function(err,u){
         if(err){
             logger.error(err);

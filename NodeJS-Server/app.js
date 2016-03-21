@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var restResponse = require('express-rest-response');
 var logger = require('winston');
 var midleware = require('./routes/middleware')
-// var scheduler = require('./modules/scheduler');
+var scheduler = require('./modules/scheduler');
 var path = require('path');
 var dir = require('node-dir');
 

@@ -7,7 +7,7 @@ function LoadUsers(){
 };
 
 function createNewUser(){
-    return {firstName:"",lastName:"",admin:"",email:"",password:""};
+    return {firstName:"",lastName:"",admin:false,email:"",password:""};
 }
 
 LoadUsers();
@@ -44,7 +44,7 @@ LoadUsers();
     $scope.saveUser = function(valid, user) {
         if (valid) {
 
-            if (user._id != "") {
+            if (user._id != undefined && user._id != "") {
                 userService.Update(user, function(result) {
 
                     if (result.success) {
