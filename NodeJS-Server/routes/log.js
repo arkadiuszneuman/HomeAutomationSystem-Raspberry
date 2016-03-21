@@ -1,11 +1,9 @@
 var logger = require('winston');
 var express = require('express');
 var models = require('../models');
-var authProvider = require('./middleware.js');
 var router = express.Router();
     
 router
-.use(authProvider.isAuth)
 .get('/log' ,function(req, res) {
     models.Log.find(null, null, { sort: '-_id', skip: 0, limit: 50 }, function(err, logs) {
         if (err) logger.info(err);

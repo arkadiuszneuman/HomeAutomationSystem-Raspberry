@@ -89,11 +89,13 @@ var dashboardRoutes = require('./routes/dashboard');
 var userRoutes = require('./routes/users');
 var loginRoutes = require('./routes/login');
 
-app.use('/api', deviceRoutes);
-app.use('/api', scheduleRoutes);
 app.use('/api', loginRoutes);
 
 app.use(midleware.methodLogger);
+app.use(midleware.isAuth);
+
+app.use('/api', deviceRoutes);
+app.use('/api', scheduleRoutes);
 app.use('/api', logRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api', userRoutes);

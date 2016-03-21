@@ -3,10 +3,8 @@ var express = require('express');
 var models = require('../models');
 var router = express.Router();
 var User = require('../models/user');
-var authProvider = require('./middleware');
 
 router
-.use(authProvider.isAuth)
 .get('/users', function (req, res) {
     logger.info('ss');
     User.find({}, function (err, users) {
