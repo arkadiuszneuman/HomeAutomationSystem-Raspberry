@@ -29,14 +29,11 @@
     <script src="js/template/jquery.min.js"></script>
     <script src="js/template/nprogress.js"></script>
 
-    <% bowerCSSFiles.forEach(function(file) { %>
-    <link rel="stylesheet" href="<%= file %>"><% }); %>
+    <link href="dist/external.min.css" rel="stylesheet" type="text/css" />
 
-    <% bowerJSFiles.forEach(function(file) { %>
-    <script src="<%= file %>"></script><% }); %>
+    <script src="dist/external.min.js"></script>
 
-    <% jsFiles.forEach(function(file) { %>
-    <script src="<%= file %>"></script><% }); %>
+    <script src="dist/has.min.js"></script>
 
     <script>
         NProgress.start();
