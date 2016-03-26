@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="homeautomation">
 
 <head>
@@ -28,19 +28,15 @@
 
     <script src="js/template/jquery.min.js"></script>
     <script src="js/template/nprogress.js"></script>
-
-    <% bowerCSSFiles.forEach(function(file) { %>
-    <link rel="stylesheet" href="<%= file %>"><% }); %>
-
-    <% bowerJSFiles.forEach(function(file) { %>
-    <script src="<%= file %>"></script><% }); %>
-    
-    <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
+	<script type="text/javascript" src="js/notify/pnotify.core.js"></script>
     <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
     <script type="text/javascript" src="js/notify/pnotify.nonblock.js"></script>
 
-    <% jsFiles.forEach(function(file) { %>
-    <script src="<%= file %>"></script><% }); %>
+    <link href="dist/external.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="dist/external.min.js"></script>
+
+    <script src="dist/has.min.js"></script>
 
     <script>
         NProgress.start();
