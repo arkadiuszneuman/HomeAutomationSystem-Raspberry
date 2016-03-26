@@ -72,7 +72,7 @@ homeAutomationApp.config(function ($stateProvider, $urlRouterProvider) {
             },
         }
     })
-    .state('home.login', {
+    .state('login', {
         url: "/login",
         views: {
             'main@': {
